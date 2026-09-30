@@ -1,0 +1,8 @@
+[Unit]
+Description=Local Hermes dashboard
+[Service]
+Type=simple
+ExecStart=@@HOME@@/.local/bin/hermes dashboard --no-open --host 127.0.0.1 --port 9119
+Restart=on-failure
+RestartSec=3
+Environment=PATH=@@HOME@@/.local/bin:@@HOME@@/.local/share/mise/shims:/usr/local/bin:/usr/bin

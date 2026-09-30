@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+# TaskGrid launcher.
+#   taskgrid            start the widget (no-op if already running)
+#   taskgrid toggle     collapse / expand the running widget, starting it if needed
+#   taskgrid restart    restart it (after editing config.json)
+#   taskgrid stop       stop it
+set -euo pipefail
+
+INSTALL_DIR="${TASKGRID_HOME:-$HOME/.local/share/taskgrid}"
+PATTERN="taskgrid.__main__|python3? -m taskgrid"
+
+running() { pgrep -f "$PATTERN" >/dev/null 2>&1; }
+
+start() {
+  running && return 0
+  cd "$INSTALL_DIR"
+  setsid nohup python3 -m taskgrid >"${XDG_RUNTIME_DIR:-/tmp}/taskgrid.log" 2>&1 </dev/null &
+  disown || true
+}
+
+case "${1:-start}" in
+  start)   start ;;
+  toggle)  if running; then pkill -USR1 -f "$PATTERN"; else start; fi ;;
+  stop)    pkill -f "$PATTERN" || true ;;
+  restart) pkill -f "$PATTERN" || true; sleep 0.4; start ;;
+  *)       echo "usage: taskgrid [start|toggle|stop|restart]" >&2; exit 2 ;;
+esac

@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Gmail — Tyler
+Comment=TBM Public Adjusters Gmail
+Exec=@@HOME@@/.config/omarchy/bar/launch-gmail
+Icon=@@HOME@@/.config/omarchy/bar/modules/icons/gmail.svg
+Terminal=false
+Categories=Network;Email;

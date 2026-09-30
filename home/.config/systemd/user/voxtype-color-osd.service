@@ -1,0 +1,12 @@
+[Unit]
+Description=Original VoxType GTK popup with black background and muted multicolor waveform
+After=voxtype.service
+PartOf=voxtype.service
+
+[Service]
+ExecStart=@@HOME@@/.local/share/voxtype/tbm-osd/voxtype-osd-gtk4-colors
+Restart=on-failure
+RestartSec=3
+
+[Install]
+WantedBy=voxtype.service

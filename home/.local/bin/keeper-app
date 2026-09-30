@@ -1,0 +1,2 @@
+#!/bin/sh
+exec /usr/bin/microsoft-edge-stable --profile-directory='Profile 2' --app=https://keepersecurity.com/vault/

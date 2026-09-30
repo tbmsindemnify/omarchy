@@ -1,0 +1,12 @@
+#!/bin/bash
+set -e
+# Reuse an existing Windows connection instead of opening another terminal/session.
+vm_window=$(hyprctl -j clients | jq -r '.[] | select(.class == "xfreerdp" and .title == "Windows VM - Omarchy") | .address' | head -n 1)
+if [[ -n "$vm_window" ]]; then
+  hyprctl dispatch "hl.dsp.focus({ window = \"address:$vm_window\" })" >/dev/null
+  hyprctl dispatch 'hl.dsp.window.fullscreen_state({ internal = 1, client = 1 })' >/dev/null
+elif [[ -f /var/lib/omarchy/windows/docker-compose.yml || -f "$HOME/.config/windows/docker-compose.yml" ]]; then
+  exec uwsm-app -- env PATH="$HOME/.config/windows/bin:$PATH" omarchy windows vm launch --keep-alive
+else
+  exec omarchy launch terminal omarchy windows vm install
+fi

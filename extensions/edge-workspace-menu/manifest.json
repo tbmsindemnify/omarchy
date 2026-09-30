@@ -1,0 +1,15 @@
+{
+  "manifest_version": 3,
+  "name": "Move to workspace",
+  "version": "1.0.0",
+  "description": "Move this Edge window to workspace 1\u20135 without replacing the normal right-click menu.",
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAoMTOmlmSZM4PKhLvGq45VzAd4xV92FxvAp9LCyjl3cqepk42nVUk/Cw6HXNEIRPsXsryedhbGV698Q2IwotvBusV4LYalSJb/YCYlU+p79sI3SttE6ofsKg3BYJTQA6qCJFrhQar8ajdsnKZ+BNIhWcI2g+wpqkD74ia6Df3lBRO/Tuuymht1wEwWHg1L89maXT+2E+ZxZudl7SooBOV/I3ALCqSZioPyZYOQcFsuVn7Ya/ffnGoN6k3N2ytoAYY5Bwzt+ERBRgn820w3EKE95FzQ5uskFk79zU+aJwXzLpmAkX39pkcDV9JDnH8xuOWpx9WqtMAupwZByh16nxSDQIDAQAB",
+  "permissions": [
+    "contextMenus",
+    "nativeMessaging",
+    "activeTab"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  }
+}

@@ -1,0 +1,21 @@
+#!/usr/bin/python3
+import json,os,re,subprocess,time,urllib.request
+subprocess.run(['systemctl','--user','start','hermes-dashboard.service'],check=True)
+for attempt in range(60):
+    try:
+        with urllib.request.urlopen('http://127.0.0.1:9119/',timeout=2) as response:
+            html=response.read().decode()
+        match=re.search(r'window\.__HERMES_SESSION_TOKEN__\s*=\s*("[^"\n]+")',html)
+        if not match: raise RuntimeError('Dashboard authentication token unavailable')
+        token=json.loads(match.group(1))
+        break
+    except Exception:
+        if attempt==59: raise SystemExit('Hermes dashboard did not become ready')
+        time.sleep(0.5)
+env=os.environ.copy()
+env['HERMES_DESKTOP_REMOTE_URL']='http://127.0.0.1:9119'
+env['HERMES_DESKTOP_REMOTE_TOKEN']=token
+exe='@@HOME@@/.local/share/hermes-desktop-source/apps/desktop/release/linux-unpacked/Hermes'
+if not os.path.isfile(exe):
+    os.execv(os.path.expanduser('~/.local/bin/hermes-dashboard-app'), ['hermes-dashboard-app'])
+os.execve(exe,[exe],env)

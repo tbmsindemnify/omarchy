@@ -1,0 +1,11 @@
+#!/bin/bash
+set -e
+systemctl --user start hermes-dashboard.service
+for ((i=0;i<60;i++)); do
+  if curl --silent --fail --output /dev/null http://127.0.0.1:9119/; then
+    exec omarchy launch or focus webapp 'Hermes Agent - Dashboard' http://127.0.0.1:9119/chat
+  fi
+  sleep 0.5
+done
+notify-send 'Hermes' 'Dashboard did not start. Check the hermes-dashboard service.'
+exit 1

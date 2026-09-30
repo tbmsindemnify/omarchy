@@ -1,0 +1,85 @@
+{
+  "bar": {
+    "centerAnchor": "omarchy.clock",
+    "id": "tbm.bar",
+    "layout": {
+      "center": [
+        {
+          "id": "omarchy.indicators"
+        },
+        {
+          "id": "omarchy.keyboard-layout"
+        },
+        {
+          "id": "launchers",
+          "type": "qml"
+        },
+        {
+          "id": "omarchy.weather"
+        },
+        {
+          "id": "omarchy.system-update"
+        }
+      ],
+      "left": [
+        {
+          "id": "omarchy.menu"
+        },
+        {
+          "id": "tbm.workspaces"
+        },
+        {
+          "id": "mail",
+          "type": "qml"
+        }
+      ],
+      "right": [
+        {
+          "id": "omarchy.tray"
+        },
+        {
+          "id": "omarchy.agents"
+        },
+        {
+          "id": "omarchy.bluetooth"
+        },
+        {
+          "id": "omarchy.network"
+        },
+        {
+          "id": "omarchy.audio"
+        },
+        {
+          "id": "omarchy.monitor"
+        },
+        {
+          "id": "omarchy.power"
+        },
+        {
+          "format": "dddd HH:mm",
+          "formatAlt": "d MMMM 'W'ww yyyy",
+          "id": "omarchy.clock",
+          "verticalFormat": "ddd\nHH\n—\nmm"
+        }
+      ]
+    },
+    "position": "left",
+    "transparent": false
+  },
+  "cloneSourceRestores": [
+    "tbm.idle"
+  ],
+  "disabledPlugins": [
+    "omarchy.idle"
+  ],
+  "idle": {
+    "lock": 300,
+    "screensaver": 150
+  },
+  "plugins": [
+    {
+      "id": "tbm.idle"
+    }
+  ],
+  "version": 1
+}

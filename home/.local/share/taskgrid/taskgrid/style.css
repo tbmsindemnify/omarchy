@@ -1,0 +1,139 @@
+/* Tokens written as @name@ are substituted from the live Omarchy theme. */
+
+window.taskgrid,
+window.taskgrid > * { background: none; }
+
+.tg-root {
+  background-color: @panel_bg@;
+  border: 1px solid @border@;
+  border-radius: 14px;
+  color: @fg@;
+  font-size: 12px;
+}
+
+/* ---------- header ---------- */
+
+.tg-header {
+  background-color: @header_bg@;
+  border-bottom: 1px solid @border@;
+  border-radius: 13px 13px 0 0;
+  padding: 7px 8px 7px 12px;
+}
+.tg-root.collapsed .tg-header { border-radius: 13px; }
+
+.tg-title { font-weight: 700; letter-spacing: 0.4px; color: @fg@; text-shadow: 0 1px 2px rgba(0,0,0,0.45); }
+.tg-subtitle { font-size: 10px; color: @fg_dim@; }
+
+.tg-count {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 1px 7px;
+  border-radius: 9px;
+  background-color: @card_bg@;
+  color: @fg_faint@;
+}
+.tg-count.hot { color: @overdue@; }
+.tg-count.active { color: @doing@; }
+
+.tg-iconbtn {
+  min-width: 22px; min-height: 22px;
+  padding: 2px; margin: 0 1px;
+  border: none; box-shadow: none;
+  border-radius: 6px;
+  /* Readable over any wallpaper, not just dark ones. */
+  background-color: @card_bg@;
+  color: @fg@;
+  font-size: 13px;
+  -gtk-icon-size: 14px;
+}
+.tg-iconbtn:hover { background-color: @row_hover@; color: @fg@; }
+
+/* ---------- body ---------- */
+
+.tg-body { padding: 4px 8px 8px 8px; }
+
+.tg-entry {
+  background-color: @card_bg@;
+  border: 1px solid @border@;
+  border-radius: 8px;
+  color: @fg@;
+  padding: 5px 8px;
+  min-height: 0;
+  font-size: 12px;
+}
+.tg-entry:focus { border-color: @accent@; }
+
+.tg-section-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.1px;
+  color: @fg_dim@;
+  padding: 10px 2px 3px 2px;
+}
+
+.tg-card {
+  background-color: @card_bg@;
+  border-radius: 9px;
+  padding: 2px;
+}
+
+/* ---------- task rows ---------- */
+
+.tg-row { border-radius: 7px; padding: 5px 6px; }
+.tg-row:hover { background-color: @row_hover@; }
+
+.tg-check {
+  min-width: 17px; min-height: 17px;
+  padding: 0;
+  border-radius: 5px;
+  border: 1.5px solid @fg_dim@;
+  background: none;
+  color: @fg@;
+  font-size: 10px;
+}
+.tg-check:hover { border-color: @accent@; }
+.tg-check.doing { border-color: @doing@; color: @doing@; }
+.tg-check.done  { border-color: @done@;  color: @done@; background-color: @card_bg@; }
+
+.tg-task { color: @fg@; }
+.tg-task.done { color: @fg_dim@; }
+.tg-task.overdue { color: @overdue@; }
+
+.tg-meta { font-size: 10px; color: @fg_dim@; }
+.tg-meta.overdue { color: @overdue@; }
+
+.tg-del { color: @fg_dim@; font-size: 11px; min-width: 18px; min-height: 18px; padding: 0; background: none; border: none; }
+.tg-del:hover { color: @overdue@; }
+
+/* ---------- session rows ---------- */
+
+.tg-dot { font-size: 8px; color: @fg_dim@; }
+
+/* Feed sources (feeds.py); colours come from theme.py src_* tokens. */
+.tg-dot.indemnify, .tg-dot.claim-mail { color: @src_indemnify@; }
+.tg-dot.gmail, .tg-dot.outlook, .tg-dot.email { color: @src_mail@; }
+.tg-dot.calendar { color: @src_calendar@; }
+.tg-dot.git { color: @src_git@; }
+.tg-dot.outbox { color: @src_outbox@; }
+.tg-dot.vault { color: @src_vault@; }
+
+.tg-task.urgent { font-weight: 600; }
+.tg-section-head { padding-right: 4px; }
+.tg-section-head:hover .tg-section-label { color: @fg@; }
+.tg-section-count { font-weight: 500; letter-spacing: 0.2px; }
+.tg-section-count.hot { color: @overdue@; }
+.tg-more { font-size: 10px; color: @fg_dim@; padding: 2px 6px; min-height: 0; background: none; border: none; }
+.tg-more:hover { color: @fg@; }
+.tg-dot.claude { color: @claude@; }
+.tg-dot.codex  { color: @codex@; }
+.tg-dot.hermes { color: @hermes@; }
+
+.tg-project { font-weight: 600; color: @fg@; }
+.tg-snippet { font-size: 10px; color: @fg_dim@; }
+.tg-agent { font-size: 9px; font-weight: 700; letter-spacing: 0.6px; color: @fg_faint@; }
+
+.tg-empty { color: @fg_dim@; font-size: 11px; padding: 10px 4px; }
+
+scrollbar { background: none; }
+scrollbar slider { background-color: @border@; border-radius: 8px; min-width: 5px; }
+scrollbar slider:hover { background-color: @fg_dim@; }

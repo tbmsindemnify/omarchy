@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Photo Folder Viewer
+Comment=Scroll on photo to zoom; scroll on surrounding space to browse
+Exec=@@HOME@@/.local/bin/photo-folder-viewer %F
+Icon=multimedia-photo-viewer
+Terminal=false
+Categories=Graphics;Viewer;
+MimeType=image/jpeg;image/png;image/webp;image/heif;image/avif;image/tiff;image/gif;image/bmp;

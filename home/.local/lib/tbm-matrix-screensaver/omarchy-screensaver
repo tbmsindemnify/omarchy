@@ -1,0 +1,46 @@
+#!/bin/bash
+set -euo pipefail
+
+exit_screensaver() {
+  hyprctl eval 'hl.config({ cursor = { invisible = false } })' &>/dev/null || hyprctl keyword cursor:invisible false &>/dev/null || true
+  if [[ -n ${effect_pid:-} ]]; then kill "$effect_pid" 2>/dev/null || true; wait "$effect_pid" 2>/dev/null || true; fi
+  pkill -t "${tty#/dev/}" -x ttfx 2>/dev/null || true
+  pkill -f '[o]rg.omarchy.screensaver' 2>/dev/null || true
+  exit 0
+}
+
+trap exit_screensaver SIGINT SIGTERM SIGHUP SIGQUIT
+printf '\033]11;rgb:00/00/00\007'
+hyprctl eval 'hl.config({ cursor = { invisible = true } })' &>/dev/null || hyprctl keyword cursor:invisible true &>/dev/null || true
+
+tty=$(tty 2>/dev/null)
+deadline=$((SECONDS + 2))
+while ((SECONDS < deadline)) && [[ $(stty size 2>/dev/null) == "24 80" ]]; do sleep 0.02; done
+
+input="$HOME/.config/omarchy/branding/screensaver.txt"
+log="$HOME/.local/state/tbm-matrix-screensaver.log"
+mkdir -p "$HOME/.local/state"
+: > "$log"
+printf 'tty=%s size=%s\n' "$tty" "$(stty size 2>/dev/null || true)" >> "$log"
+python3 "$HOME/.local/lib/tbm-matrix-screensaver/matrix-logo.py" 2>> "$log" &
+effect_pid=$!
+
+sleep 2
+initial_cursor=$(hyprctl cursorpos 2>/dev/null || true)
+read -r initial_x initial_y <<< "${initial_cursor//,/ }"
+
+while kill -0 "$effect_pid" 2>/dev/null; do
+  if read -r -n1 -t 0.15; then exit_screensaver; fi
+  current_cursor=$(hyprctl cursorpos 2>/dev/null || true)
+  read -r current_x current_y <<< "${current_cursor//,/ }"
+  delta_x=$((current_x - initial_x)); delta_y=$((current_y - initial_y))
+  if ((delta_x < 0)); then delta_x=$((-delta_x)); fi
+  if ((delta_y < 0)); then delta_y=$((-delta_y)); fi
+  if ((delta_x + delta_y > 80)); then
+    printf 'exit=cursor initial=%s current=%s\n' "$initial_cursor" "$current_cursor" >> "$log"
+    exit_screensaver
+  fi
+done
+printf 'exit=effect-ended\n' >> "$log"
+
+exit_screensaver

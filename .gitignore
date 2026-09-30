@@ -1,0 +1,15 @@
+.build/
+__pycache__/
+*.pyc
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*credentials*
+*Cookies*
+*.bak*
+*.before-*
+node_modules/
+target/
+local/

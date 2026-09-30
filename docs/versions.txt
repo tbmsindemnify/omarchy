@@ -1,0 +1,5 @@
+omarchy 4.0.4-1
+hyprland 0.56.2-2
+quickshell 0.3.1-1
+voxtype-bin 1.1.0-2
+imv 5.0.1-2

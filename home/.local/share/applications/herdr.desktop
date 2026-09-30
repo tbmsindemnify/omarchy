@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=Herdr
+GenericName=Agent Terminal
+Comment=Open the persistent Herdr terminal session
+Exec=omarchy-launch-terminal-herdr
+Icon=utilities-terminal
+Terminal=false
+Categories=System;TerminalEmulator;
+Keywords=herdr;herder;agents;terminal;
+StartupNotify=false

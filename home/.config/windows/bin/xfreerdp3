@@ -1,0 +1,6 @@
+#!/bin/bash
+# Fit the RDP desktop to the primary workspace monitor, preserving reserved panels.
+set -euo pipefail
+primary=$(python3 -c 'import json,pathlib; print(next(iter(json.loads((pathlib.Path.home()/".config/omarchy/workspace-map.json").read_text())), ""))')
+size=$(hyprctl monitors -j | jq -r --arg primary "$primary" '[.[] | select(.name == $primary or ($primary == "" and .focused))][0] | if . == null then "1920x1080" else "\(((.width / .scale) - .reserved[0] - .reserved[2]) | floor)x\(((.height / .scale) - .reserved[1] - .reserved[3]) | floor)" end')
+exec /usr/bin/xfreerdp3 "$@" /size:"$size" +dynamic-resolution -decorations

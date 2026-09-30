@@ -1,0 +1,476 @@
+[
+  {
+    "path": ".config/alacritty/alacritty.toml",
+    "group": "core"
+  },
+  {
+    "path": ".config/cliamp/config.toml",
+    "group": "core"
+  },
+  {
+    "path": ".config/foot/foot.ini",
+    "group": "core"
+  },
+  {
+    "path": ".config/ghostty/config",
+    "group": "core"
+  },
+  {
+    "path": ".config/hypr/autostart.lua",
+    "group": "core"
+  },
+  {
+    "path": ".config/hypr/bindings.lua",
+    "group": "core"
+  },
+  {
+    "path": ".config/hypr/hyprland.lua",
+    "group": "core",
+    "capture": false
+  },
+  {
+    "path": ".config/hypr/hyprsunset.conf",
+    "group": "core"
+  },
+  {
+    "path": ".config/hypr/input.lua",
+    "group": "core"
+  },
+  {
+    "path": ".config/hypr/looknfeel.lua",
+    "group": "core"
+  },
+  {
+    "path": ".config/hypr/monitors.lua",
+    "group": "core",
+    "capture": false
+  },
+  {
+    "path": ".config/hypr/voice-registry.lua",
+    "group": "core"
+  },
+  {
+    "path": ".config/hypr/xdph.conf",
+    "group": "core"
+  },
+  {
+    "path": ".config/imv/config",
+    "group": "core"
+  },
+  {
+    "path": ".config/kitty/kitty.conf",
+    "group": "core"
+  },
+  {
+    "path": ".config/omarchy/bar/launch-claude",
+    "group": "core"
+  },
+  {
+    "path": ".config/omarchy/bar/launch-codex",
+    "group": "core"
+  },
+  {
+    "path": ".config/omarchy/bar/launch-edge",
+    "group": "core"
+  },
+  {
+    "path": ".config/omarchy/bar/launch-gmail",
+    "group": "core",
+    "capture": false
+  },
+  {
+    "path": ".config/omarchy/bar/launch-outlook",
+    "group": "core"
+  },
+  {
+    "path": ".config/omarchy/bar/launch-windows",
+    "group": "core"
+  },
+  {
+    "path": ".config/omarchy/bar/modules/icons/claude.svg",
+    "group": "core"
+  },
+  {
+    "path": ".config/omarchy/bar/modules/icons/edge.svg",
+    "group": "core"
+  },
+  {
+    "path": ".config/omarchy/bar/modules/icons/gmail.svg",
+    "group": "core"
+  },
+  {
+    "path": ".config/omarchy/bar/modules/icons/hermes.svg",
+    "group": "core"
+  },
+  {
+    "path": ".config/omarchy/bar/modules/icons/openai.svg",
+    "group": "core"
+  },
+  {
+    "path": ".config/omarchy/bar/modules/icons/outlook.svg",
+    "group": "core"
+  },
+  {
+    "path": ".config/omarchy/bar/modules/icons/windows.svg",
+    "group": "core"
+  },
+  {
+    "path": ".config/omarchy/bar/modules/launchers.qml",
+    "group": "core",
+    "capture": false
+  },
+  {
+    "path": ".config/omarchy/bar/modules/mail.qml",
+    "group": "core"
+  },
+  {
+    "path": ".config/omarchy/branding/about.txt",
+    "group": "core"
+  },
+  {
+    "path": ".config/omarchy/branding/screensaver.txt",
+    "group": "core"
+  },
+  {
+    "path": ".config/omarchy/defaults/agent",
+    "group": "core"
+  },
+  {
+    "path": ".config/omarchy/extensions/omarchy-menu.jsonc",
+    "group": "core"
+  },
+  {
+    "path": ".config/omarchy/plugins/tbm.bar/Bar.qml",
+    "group": "core"
+  },
+  {
+    "path": ".config/omarchy/plugins/tbm.bar/BarModel.js",
+    "group": "core"
+  },
+  {
+    "path": ".config/omarchy/plugins/tbm.bar/README.md",
+    "group": "core"
+  },
+  {
+    "path": ".config/omarchy/plugins/tbm.bar/indicators/Dictation.qml",
+    "group": "core"
+  },
+  {
+    "path": ".config/omarchy/plugins/tbm.bar/indicators/Dnd.qml",
+    "group": "core"
+  },
+  {
+    "path": ".config/omarchy/plugins/tbm.bar/indicators/NightLight.qml",
+    "group": "core"
+  },
+  {
+    "path": ".config/omarchy/plugins/tbm.bar/indicators/Reminder.qml",
+    "group": "core"
+  },
+  {
+    "path": ".config/omarchy/plugins/tbm.bar/indicators/ScreenRecording.qml",
+    "group": "core"
+  },
+  {
+    "path": ".config/omarchy/plugins/tbm.bar/indicators/StayAwake.qml",
+    "group": "core"
+  },
+  {
+    "path": ".config/omarchy/plugins/tbm.bar/manifest.json",
+    "group": "core"
+  },
+  {
+    "path": ".config/omarchy/plugins/tbm.bar/widgets/ActiveWindow.manifest.json",
+    "group": "core"
+  },
+  {
+    "path": ".config/omarchy/plugins/tbm.bar/widgets/ActiveWindow.qml",
+    "group": "core"
+  },
+  {
+    "path": ".config/omarchy/plugins/tbm.bar/widgets/Indicators.manifest.json",
+    "group": "core"
+  },
+  {
+    "path": ".config/omarchy/plugins/tbm.bar/widgets/Indicators.qml",
+    "group": "core"
+  },
+  {
+    "path": ".config/omarchy/plugins/tbm.bar/widgets/KeyboardLayout.manifest.json",
+    "group": "core"
+  },
+  {
+    "path": ".config/omarchy/plugins/tbm.bar/widgets/KeyboardLayout.qml",
+    "group": "core"
+  },
+  {
+    "path": ".config/omarchy/plugins/tbm.bar/widgets/KeyboardLayoutModel.js",
+    "group": "core"
+  },
+  {
+    "path": ".config/omarchy/plugins/tbm.bar/widgets/Microphone.manifest.json",
+    "group": "core"
+  },
+  {
+    "path": ".config/omarchy/plugins/tbm.bar/widgets/Microphone.qml",
+    "group": "core"
+  },
+  {
+    "path": ".config/omarchy/plugins/tbm.bar/widgets/Spacer.manifest.json",
+    "group": "core"
+  },
+  {
+    "path": ".config/omarchy/plugins/tbm.bar/widgets/Spacer.qml",
+    "group": "core"
+  },
+  {
+    "path": ".config/omarchy/plugins/tbm.bar/widgets/SystemUpdate.manifest.json",
+    "group": "core"
+  },
+  {
+    "path": ".config/omarchy/plugins/tbm.bar/widgets/SystemUpdate.qml",
+    "group": "core"
+  },
+  {
+    "path": ".config/omarchy/plugins/tbm.bar/widgets/Tray.manifest.json",
+    "group": "core"
+  },
+  {
+    "path": ".config/omarchy/plugins/tbm.bar/widgets/Tray.qml",
+    "group": "core"
+  },
+  {
+    "path": ".config/omarchy/plugins/tbm.bar/widgets/TrayModel.js",
+    "group": "core"
+  },
+  {
+    "path": ".config/omarchy/plugins/tbm.bar/widgets/Workspaces.manifest.json",
+    "group": "core"
+  },
+  {
+    "path": ".config/omarchy/plugins/tbm.bar/widgets/Workspaces.qml",
+    "group": "core"
+  },
+  {
+    "path": ".config/omarchy/plugins/tbm.idle/IdleModel.js",
+    "group": "core"
+  },
+  {
+    "path": ".config/omarchy/plugins/tbm.idle/Service.qml",
+    "group": "core"
+  },
+  {
+    "path": ".config/omarchy/plugins/tbm.idle/manifest.json",
+    "group": "core"
+  },
+  {
+    "path": ".config/omarchy/plugins/tbm.workspaces/Workspaces.qml",
+    "group": "core",
+    "capture": false
+  },
+  {
+    "path": ".config/omarchy/plugins/tbm.workspaces/manifest.json",
+    "group": "core"
+  },
+  {
+    "path": ".config/omarchy/shell.json",
+    "group": "core"
+  },
+  {
+    "path": ".config/omarchy/shell.toml",
+    "group": "core"
+  },
+  {
+    "path": ".config/systemd/user/hermes-dashboard.service",
+    "group": "core"
+  },
+  {
+    "path": ".config/systemd/user/voxtype-color-osd.service",
+    "group": "voice-osd"
+  },
+  {
+    "path": ".config/systemd/user/voxtype.service",
+    "group": "voice"
+  },
+  {
+    "path": ".config/taskgrid/config.json",
+    "group": "core",
+    "capture": false
+  },
+  {
+    "path": ".config/tensaku/config.toml",
+    "group": "core"
+  },
+  {
+    "path": ".config/voxtype/config.toml",
+    "group": "voice",
+    "capture": false
+  },
+  {
+    "path": ".config/voxtype/osd/tbm-midnight/voxtype-osd.toml",
+    "group": "voice"
+  },
+  {
+    "path": ".config/windows/bin/xfreerdp3",
+    "group": "core",
+    "capture": false
+  },
+  {
+    "path": ".local/bin/hermes-dashboard-app",
+    "group": "core"
+  },
+  {
+    "path": ".local/bin/hermes-desktop-app",
+    "group": "core",
+    "capture": false
+  },
+  {
+    "path": ".local/bin/keeper-app",
+    "group": "core"
+  },
+  {
+    "path": ".local/bin/photo-folder-viewer",
+    "group": "photos",
+    "capture": false
+  },
+  {
+    "path": ".local/bin/taskgrid",
+    "group": "core"
+  },
+  {
+    "path": ".local/bin/tbm-matrix-screensaver-launch",
+    "group": "core"
+  },
+  {
+    "path": ".local/bin/tbm-workspace-menu",
+    "group": "core",
+    "capture": false
+  },
+  {
+    "path": ".local/lib/tbm-matrix-screensaver/matrix-logo.py",
+    "group": "core"
+  },
+  {
+    "path": ".local/lib/tbm-matrix-screensaver/omarchy-screensaver",
+    "group": "core"
+  },
+  {
+    "path": ".local/lib/tbm-workspace-menu/host.py",
+    "group": "core"
+  },
+  {
+    "path": ".local/lib/voice-control/actions.py",
+    "group": "voice"
+  },
+  {
+    "path": ".local/lib/voice-control/benchmark.py",
+    "group": "core"
+  },
+  {
+    "path": ".local/lib/voice-control/chatgpt_action.py",
+    "group": "core"
+  },
+  {
+    "path": ".local/lib/voice-control/control.py",
+    "group": "voice"
+  },
+  {
+    "path": ".local/lib/voice-control/file_actions.py",
+    "group": "core"
+  },
+  {
+    "path": ".local/lib/voice-control/focus.py",
+    "group": "voice"
+  },
+  {
+    "path": ".local/lib/voice-control/prompt_selection.py",
+    "group": "core"
+  },
+  {
+    "path": ".local/lib/voice-control/restart-chatgpt.py",
+    "group": "core"
+  },
+  {
+    "path": ".local/lib/voice-control/rewrite.py",
+    "group": "core"
+  },
+  {
+    "path": ".local/lib/voice-control/semantic.py",
+    "group": "core"
+  },
+  {
+    "path": ".local/lib/voice-control/test_control.py",
+    "group": "voice",
+    "capture": false
+  },
+  {
+    "path": ".local/lib/voice-control/warm.py",
+    "group": "core"
+  },
+  {
+    "path": ".local/share/applications/Keeper.desktop",
+    "group": "core"
+  },
+  {
+    "path": ".local/share/applications/Outlook.desktop",
+    "group": "core"
+  },
+  {
+    "path": ".local/share/applications/herdr.desktop",
+    "group": "core"
+  },
+  {
+    "path": ".local/share/applications/hermes-agent.desktop",
+    "group": "core",
+    "capture": false
+  },
+  {
+    "path": ".local/share/applications/photo-folder-viewer.desktop",
+    "group": "photos"
+  },
+  {
+    "path": ".local/share/applications/tbm-gmail.desktop",
+    "group": "core"
+  },
+  {
+    "path": ".local/share/applications/windows-vm.desktop",
+    "group": "core"
+  },
+  {
+    "path": ".local/share/taskgrid/taskgrid/__init__.py",
+    "group": "core"
+  },
+  {
+    "path": ".local/share/taskgrid/taskgrid/__main__.py",
+    "group": "core"
+  },
+  {
+    "path": ".local/share/taskgrid/taskgrid/app.py",
+    "group": "core"
+  },
+  {
+    "path": ".local/share/taskgrid/taskgrid/feeds.py",
+    "group": "core",
+    "capture": false
+  },
+  {
+    "path": ".local/share/taskgrid/taskgrid/sources.py",
+    "group": "core"
+  },
+  {
+    "path": ".local/share/taskgrid/taskgrid/style.css",
+    "group": "core"
+  },
+  {
+    "path": ".local/share/taskgrid/taskgrid/theme.py",
+    "group": "core"
+  },
+  {
+    "path": "Templates/Text File.txt",
+    "group": "core"
+  },
+  {
+    "path": "Templates/Word Document.odt",
+    "group": "core"
+  }
+]

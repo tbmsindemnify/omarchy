@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0
+Name=Keeper
+Comment=Keeper
+Exec=@@HOME@@/.local/bin/keeper-app
+Terminal=false
+Type=Application
+Icon=dialog-password
+StartupNotify=true

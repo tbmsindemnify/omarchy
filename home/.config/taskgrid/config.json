@@ -1,0 +1,18 @@
+{
+  "opacity": 0.55,
+  "width": 380,
+  "height_fraction": 0.74,
+  "margin_top": 48,
+  "margin_right": 8,
+  "collapsed": false,
+  "layer": "top",
+  "refresh_seconds": 45,
+  "session_days": 10,
+  "session_limit": 12,
+  "show_sessions": false,
+  "local_feeds": [],
+  "local_scan_seconds": 300,
+  "feed_limit": 5,
+  "collapsed_sections": [],
+  "expanded_sections": []
+}

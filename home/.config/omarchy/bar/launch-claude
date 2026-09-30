@@ -1,0 +1,16 @@
+#!/usr/bin/env python3
+"""Raise the existing Claude desktop window, or launch the local desktop app if none is open."""
+import json
+import re
+import subprocess
+
+clients = json.loads(subprocess.check_output(['hyprctl', 'clients', '-j'], text=True))
+windows = [c for c in clients if c.get('class', '') == 'com.anthropic.Claude' and c.get('mapped')]
+if windows:
+    window = min(windows, key=lambda c: c.get('focusHistoryID', 9999))
+    address = window['address']
+    if not re.fullmatch(r'0x[0-9a-fA-F]+', address):
+        raise SystemExit('Invalid window address')
+    subprocess.run(['hyprctl', 'eval', f'hl.dispatch(hl.dsp.focus({{window = "address:{address}"}}))'], check=True)
+else:
+    subprocess.Popen(['uwsm-app', '--', 'claude-desktop'], start_new_session=True)

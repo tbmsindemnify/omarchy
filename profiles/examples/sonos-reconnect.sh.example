@@ -1,0 +1,7 @@
+#!/bin/sh
+set -eu
+: "${SONOS_ADDRESS:?Set SONOS_ADDRESS to your paired speaker address}"
+export LC_ALL=C
+bluetoothctl show | grep -q 'Powered: yes' || exit 0
+bluetoothctl info "$SONOS_ADDRESS" | grep -q 'Connected: yes' && exit 0
+timeout 20 bluetoothctl --timeout 15 connect "$SONOS_ADDRESS"

@@ -1,0 +1,9 @@
+#!/bin/sh
+set -eu
+viewer="$HOME/.local/lib/imv-photo-scroll/imv"
+[ -x "$viewer" ] || viewer=/usr/bin/imv
+if [ "$#" -eq 0 ]; then exit 0; fi
+if [ "$#" -eq 1 ] && [ -f "$1" ]; then
+  exec "$viewer" -n "$1" "$(dirname -- "$1")"
+fi
+exec "$viewer" "$@"

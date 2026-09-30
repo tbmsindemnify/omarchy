@@ -1,0 +1,106 @@
+#!/usr/bin/env python3
+"""Move the window under the pointer to a monitor-local workspace, 1–5."""
+import fcntl
+import json
+import os
+import re
+import subprocess
+import sys
+import time
+from pathlib import Path
+
+
+def query(kind):
+    return json.loads(subprocess.check_output(["hyprctl", kind, "-j"], text=True))
+
+
+def notify(message):
+    subprocess.run(["notify-send", "Move to workspace", message], check=False)
+
+
+def target_at_pointer():
+    point = query("cursorpos")
+    monitors = query("monitors")
+    visible_workspaces = {m["activeWorkspace"]["id"] for m in monitors}
+    visible_workspaces.update(m.get("specialWorkspace", {}).get("id", 0) for m in monitors)
+    candidates = []
+    for window in query("clients"):
+        x, y = window["at"]
+        width, height = window["size"]
+        if (window.get("mapped") and not window.get("hidden")
+                and (window["workspace"]["id"] in visible_workspaces or window.get("pinned"))
+                and x <= point["x"] < x + width and y <= point["y"] < y + height):
+            candidates.append(window)
+    if not candidates:
+        return None
+    # Do not guess between overlapping windows. The compositor's focused
+    # window is authoritative when the pointer is over it.
+    active = query("activewindow")
+    if len(candidates) > 1:
+        candidates = [w for w in candidates if w["address"] == active.get("address")]
+    return candidates[0] if len(candidates) == 1 else None
+
+
+def move(window, slot):
+    if slot not in range(1, 6):
+        raise ValueError("Workspace must be 1–5")
+    # Recheck identity after the menu closes: the app may have closed meanwhile.
+    current = next((w for w in query("clients")
+                    if w["address"] == window["address"]
+                    and w.get("stableId") == window.get("stableId")
+                    and w["pid"] == window["pid"]), None)
+    if current is None:
+        raise RuntimeError("That window has closed; nothing was moved.")
+    if current.get("pinned"):
+        raise RuntimeError("Unpin this window first; pinned windows appear on every workspace.")
+    monitor = next((m for m in query("monitors") if m["id"] == current["monitor"]), None)
+    mapping_path = Path.home() / '.config/omarchy/workspace-map.json'
+    mapping = json.loads(mapping_path.read_text())
+    if monitor is None or monitor["name"] not in mapping:
+        raise RuntimeError("This screen does not have a configured set of workspaces 1–5.")
+    destination = slot + mapping[monitor["name"]]
+    address = current["address"]
+    if not re.fullmatch(r"0x[0-9a-fA-F]+", address):
+        raise RuntimeError("Invalid window address.")
+    command = ('hl.dsp.window.move({ window = "address:' + address
+               + '", workspace = "' + str(destination) + '", follow = false })')
+    subprocess.run(["hyprctl", "dispatch", command], check=True, capture_output=True, text=True)
+    for _ in range(20):
+        updated = next((w for w in query("clients") if w["address"] == address), None)
+        if updated and updated["workspace"]["id"] == destination:
+            return destination
+        time.sleep(0.05)
+    raise RuntimeError("The window did not reach the selected workspace.")
+
+
+def main():
+    lock = open(Path(os.environ["XDG_RUNTIME_DIR"]) / "tbm-workspace-menu.lock", "w")
+    try:
+        fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+    except BlockingIOError:
+        return
+    window = target_at_pointer()
+    if window is None:
+        notify("Point at an open window and use Alt + right-click.")
+        return
+    title = " ".join(window.get("title", window["class"]).split())[:70]
+    options = ["Workspace " + str(i) for i in range(1, 6)]
+    result = subprocess.run(["omarchy-menu-select", "Move: " + title, *options,
+                             "--", "--width", "460", "--maxheight", "460"],
+                            capture_output=True, text=True)
+    if result.returncode != 0:
+        return  # Escape / outside click is cancellation.
+    selection = result.stdout.strip()
+    if selection not in options:
+        return
+    slot = options.index(selection) + 1
+    move(window, slot)
+    notify("Moved to workspace " + str(slot) + " on the same screen.")
+
+
+if __name__ == "__main__":
+    try:
+        main()
+    except (OSError, ValueError, RuntimeError, subprocess.SubprocessError) as error:
+        notify(str(error))
+        sys.exit(1)

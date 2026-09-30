@@ -1,0 +1,6 @@
+#!/bin/bash
+if command -v microsoft-edge-stable >/dev/null; then
+  exec uwsm-app -- microsoft-edge-stable
+else
+  exec omarchy launch terminal bash -c 'omarchy install browser edge && exec uwsm-app -- microsoft-edge-stable'
+fi

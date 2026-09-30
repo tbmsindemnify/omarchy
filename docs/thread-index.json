@@ -1,0 +1,1250 @@
+[
+  {
+    "source": "Codex",
+    "source_id": "01a0c125-040f-7bb1-9cdf-d6ab90f446f6",
+    "task_id": "01a0c125-040f-7bb1-9cdf-d6ab90f446f6",
+    "title": "Voice-to-text installation",
+    "scope": "Mouse button 5 dictation and initial monitor configuration.",
+    "category": "voice",
+    "status": "Source reviewed; see current implementation and limits in docs/change-inventory.md.",
+    "routing": {
+      "model": "qwen3.5:4b",
+      "reasoning": "low",
+      "source": "jev",
+      "confidence": 0.65,
+      "advisory_only": true
+    }
+  },
+  {
+    "source": "Codex",
+    "source_id": "01a0c19b-967a-75d3-836e-4a708ab6ce7c",
+    "task_id": "01a0c19b-967a-75d3-836e-4a708ab6ce7c",
+    "title": "Omarchy sidebar and desktop setup",
+    "scope": "Wider sidebar, app/mail launchers, independent workspaces, screensaver, dictation popup, terminals, local AI setup, storage presentation and scanner workflow.",
+    "category": "desktop",
+    "status": "Source reviewed; see current implementation and limits in docs/change-inventory.md.",
+    "routing": {
+      "model": "qwen3-coder:30b",
+      "reasoning": "medium",
+      "source": "jev",
+      "confidence": 1.0,
+      "advisory_only": true
+    }
+  },
+  {
+    "source": "Codex",
+    "source_id": "01a0c3c5-cb25-7d21-ab44-ee724666c48f",
+    "task_id": "01a0c3c5-cb25-7d21-ab44-ee724666c48f",
+    "title": "File explorer navigation",
+    "scope": "Finding documents and file-manager navigation; reference only.",
+    "category": "reference",
+    "status": "Source reviewed; see current implementation and limits in docs/change-inventory.md.",
+    "routing": {
+      "model": "qwen3.5:4b",
+      "reasoning": "low",
+      "source": "jev",
+      "confidence": 0.96,
+      "advisory_only": true
+    }
+  },
+  {
+    "source": "Codex",
+    "source_id": "01a0c3d0-68e6-7781-b94b-5a0c60516cf7",
+    "task_id": "01a0c3d0-68e6-7781-b94b-5a0c60516cf7",
+    "title": "Recovered application launchers",
+    "scope": "Linux application launchers for recovered apps; application source and vault contents excluded.",
+    "category": "apps",
+    "status": "Source reviewed; see current implementation and limits in docs/change-inventory.md.",
+    "routing": {
+      "model": "qwen3-coder:30b",
+      "reasoning": "medium",
+      "source": "jev",
+      "confidence": 1.0,
+      "advisory_only": true
+    }
+  },
+  {
+    "source": "Codex",
+    "source_id": "01a0c449-467b-7d90-b608-de4ad11b84c4",
+    "task_id": "01a0c449-467b-7d90-b608-de4ad11b84c4",
+    "title": "Windows virtual machine connection",
+    "scope": "Windows VM start/connection and existing-machine migration investigation.",
+    "category": "vm",
+    "status": "Source reviewed; see current implementation and limits in docs/change-inventory.md.",
+    "routing": {
+      "model": "qwen3-coder:30b",
+      "reasoning": "medium",
+      "source": "jev",
+      "confidence": 1.0,
+      "advisory_only": true
+    }
+  },
+  {
+    "source": "Codex",
+    "source_id": "01a0c5b7-fe17-7480-896b-1b37cdebae06",
+    "task_id": "01a0c5b7-fe17-7480-896b-1b37cdebae06",
+    "title": "Universal shared scans folder",
+    "scope": "Shared scans convention only; unrelated business application work excluded.",
+    "category": "vm",
+    "status": "Source reviewed; see current implementation and limits in docs/change-inventory.md.",
+    "routing": {
+      "model": "qwen3.5:4b",
+      "reasoning": "low",
+      "source": "jev",
+      "confidence": 0.65,
+      "advisory_only": true
+    }
+  },
+  {
+    "source": "Codex",
+    "source_id": "01a0c5ba-4260-74f3-808f-8c156ffba8d5",
+    "task_id": "01a0c5ba-4260-74f3-808f-8c156ffba8d5",
+    "title": "Spotify repeated login",
+    "scope": "Cliamp/Spotify sign-in troubleshooting and configuration; account tokens excluded.",
+    "category": "apps",
+    "status": "Source reviewed; see current implementation and limits in docs/change-inventory.md.",
+    "routing": {
+      "model": "qwen3-coder:30b",
+      "reasoning": "low",
+      "source": "jev",
+      "confidence": 0.38,
+      "advisory_only": true
+    }
+  },
+  {
+    "source": "Codex",
+    "source_id": "01a0c5f4-433f-7d40-91a2-8957950f3c41",
+    "task_id": "01a0c5f4-433f-7d40-91a2-8957950f3c41",
+    "title": "Printer setup",
+    "scope": "HP Smart Tank print queue setup only; client reports excluded.",
+    "category": "hardware",
+    "status": "Source reviewed; see current implementation and limits in docs/change-inventory.md.",
+    "routing": {
+      "model": "qwen3-coder:30b",
+      "reasoning": "low",
+      "source": "jev",
+      "confidence": 0.42,
+      "advisory_only": true
+    }
+  },
+  {
+    "source": "Codex",
+    "source_id": "01a0c604-bc18-7ca3-b6d2-07e1c672de10",
+    "task_id": "01a0c604-bc18-7ca3-b6d2-07e1c672de10",
+    "title": "Attach external drive to Windows VM",
+    "scope": "USB passthrough and BitLocker status investigation; recovery keys and device identifiers excluded.",
+    "category": "vm",
+    "status": "Source reviewed; see current implementation and limits in docs/change-inventory.md.",
+    "routing": {
+      "model": "qwen3-coder:30b",
+      "reasoning": "medium",
+      "source": "jev",
+      "confidence": 1.0,
+      "advisory_only": true
+    }
+  },
+  {
+    "source": "Codex",
+    "source_id": "01a0c69b-78c7-70b1-bf30-707ede8875be",
+    "task_id": "01a0c69b-78c7-70b1-bf30-707ede8875be",
+    "title": "Reorganize drive names",
+    "scope": "Friendly disk labels and file-manager bookmarks.",
+    "category": "hardware",
+    "status": "Source reviewed; see current implementation and limits in docs/change-inventory.md.",
+    "routing": {
+      "model": "qwen3-coder:30b",
+      "reasoning": "low",
+      "source": "jev",
+      "confidence": 0.38,
+      "advisory_only": true
+    }
+  },
+  {
+    "source": "Codex",
+    "source_id": "01a0c728-67fc-7691-bd0b-11834e74bac1",
+    "task_id": "01a0c728-67fc-7691-bd0b-11834e74bac1",
+    "title": "imv crash diagnosis",
+    "scope": "Keyboard state/key-repeat race diagnosis; photo-scroll code is separately preserved.",
+    "category": "diagnostics",
+    "status": "Source reviewed; see current implementation and limits in docs/change-inventory.md.",
+    "routing": {
+      "model": "qwen3-coder:30b",
+      "reasoning": "medium",
+      "source": "jev",
+      "confidence": 1.0,
+      "advisory_only": true
+    }
+  },
+  {
+    "source": "Codex",
+    "source_id": "01a0c763-2b16-7293-8c04-48adadb5479d",
+    "task_id": "01a0c763-2b16-7293-8c04-48adadb5479d",
+    "title": "Mouse buttons and voice command controls",
+    "scope": "Enter gesture, explicit voice commands, dictation routing and later prompt helpers. Latest live files supersede early gestures.",
+    "category": "voice",
+    "status": "Source reviewed; see current implementation and limits in docs/change-inventory.md.",
+    "routing": {
+      "model": "qwen3-coder:30b",
+      "reasoning": "medium",
+      "source": "jev",
+      "confidence": 1.0,
+      "advisory_only": true
+    }
+  },
+  {
+    "source": "Codex",
+    "source_id": "01a0c7ef-3cc4-7520-8535-31aa8ed42a53",
+    "task_id": "01a0c7ef-3cc4-7520-8535-31aa8ed42a53",
+    "title": "NVMe hot-swap guidance",
+    "scope": "Hardware safety discussion; no automated disk operation.",
+    "category": "reference",
+    "status": "Source reviewed; see current implementation and limits in docs/change-inventory.md.",
+    "routing": {
+      "model": "qwen3-coder:30b",
+      "reasoning": "medium",
+      "source": "jev",
+      "confidence": 1.0,
+      "advisory_only": true
+    }
+  },
+  {
+    "source": "Codex",
+    "source_id": "01a0c980-08c3-7451-bb75-ff3f7bfba219",
+    "task_id": "01a0c980-08c3-7451-bb75-ff3f7bfba219",
+    "title": "Business application desktop launcher",
+    "scope": "Local app launcher/service integration only; business app and records excluded.",
+    "category": "apps",
+    "status": "Source reviewed; see current implementation and limits in docs/change-inventory.md.",
+    "routing": {
+      "model": "qwen3.5:4b",
+      "reasoning": "low",
+      "source": "jev",
+      "confidence": 0.31,
+      "advisory_only": true
+    }
+  },
+  {
+    "source": "Codex",
+    "source_id": "01a0c9cf-5444-7250-9de8-b50e8e497191",
+    "task_id": "01a0c9cf-5444-7250-9de8-b50e8e497191",
+    "title": "Windows fills workspace beside sidebar",
+    "scope": "RDP sizing wrapper and zero-gap workspace rule, preserving the sidebar.",
+    "category": "vm",
+    "status": "Source reviewed; see current implementation and limits in docs/change-inventory.md.",
+    "routing": {
+      "model": "qwen3-coder:30b",
+      "reasoning": "medium",
+      "source": "jev",
+      "confidence": 1.0,
+      "advisory_only": true
+    }
+  },
+  {
+    "source": "Codex",
+    "source_id": "01a0ca5b-e68d-7513-a79e-72c4637e4404",
+    "task_id": "01a0ca5b-e68d-7513-a79e-72c4637e4404",
+    "title": "Nautilus crash diagnosis",
+    "scope": "File-manager crash investigation; no claim of an installed fix.",
+    "category": "diagnostics",
+    "status": "Source reviewed; see current implementation and limits in docs/change-inventory.md.",
+    "routing": {
+      "model": "qwen3-coder:30b",
+      "reasoning": "medium",
+      "source": "jev",
+      "confidence": 1.0,
+      "advisory_only": true
+    }
+  },
+  {
+    "source": "Codex",
+    "source_id": "01a0cbd2-f73c-7d01-a264-556fff342d71",
+    "task_id": "01a0cbd2-f73c-7d01-a264-556fff342d71",
+    "title": "Long dictation recordings",
+    "scope": "Ten-minute recording limit and longer transcription timeout from a mixed-topic conversation.",
+    "category": "voice",
+    "status": "Source reviewed; see current implementation and limits in docs/change-inventory.md.",
+    "routing": {
+      "model": "qwen3-coder:30b",
+      "reasoning": "medium",
+      "source": "jev",
+      "confidence": 1.0,
+      "advisory_only": true
+    }
+  },
+  {
+    "source": "Codex",
+    "source_id": "01a0cc43-4ddd-7330-bc13-70a548a339ab",
+    "task_id": "01a0cc43-4ddd-7330-bc13-70a548a339ab",
+    "title": "Codex app and phone desktop access",
+    "scope": "App launch repair, display restoration, and phone remote-desktop investigation; touch control remained unverified.",
+    "category": "apps",
+    "status": "Source reviewed; see current implementation and limits in docs/change-inventory.md.",
+    "routing": {
+      "model": "qwen3-coder:30b",
+      "reasoning": "medium",
+      "source": "jev",
+      "confidence": 1.0,
+      "advisory_only": true
+    }
+  },
+  {
+    "source": "Codex",
+    "source_id": "01a0ceca-2e9d-7a52-a812-69eb0ebd3d5a",
+    "task_id": "01a0ceca-2e9d-7a52-a812-69eb0ebd3d5a",
+    "title": "Herdr menu and keybindings",
+    "scope": "Separate Herdr application launcher from Herdr Keybindings help entry.",
+    "category": "apps",
+    "status": "Source reviewed; see current implementation and limits in docs/change-inventory.md.",
+    "routing": {
+      "model": "qwen3-coder:30b",
+      "reasoning": "medium",
+      "source": "jev",
+      "confidence": 1.0,
+      "advisory_only": true
+    }
+  },
+  {
+    "source": "Codex",
+    "source_id": "01a0cecb-0814-7610-9e60-8b61d1dc02d8",
+    "task_id": "01a0cecb-0814-7610-9e60-8b61d1dc02d8",
+    "title": "Herdr configuration",
+    "scope": "Terminal agent application setup and diagnosis.",
+    "category": "apps",
+    "status": "Source reviewed; see current implementation and limits in docs/change-inventory.md.",
+    "routing": {
+      "model": "qwen3-coder:30b",
+      "reasoning": "medium",
+      "source": "jev",
+      "confidence": 1.0,
+      "advisory_only": true
+    }
+  },
+  {
+    "source": "Codex",
+    "source_id": "01a0cf50-2131-7992-81aa-551d25130eb8",
+    "task_id": "01a0cf50-2131-7992-81aa-551d25130eb8",
+    "title": "Desktop helpers in a mixed-topic task",
+    "scope": "Only desktop-related configuration evidence retained; unrelated financial/legal content excluded.",
+    "category": "reference",
+    "status": "Source reviewed; see current implementation and limits in docs/change-inventory.md.",
+    "routing": {
+      "model": "qwen3.5:4b",
+      "reasoning": "low",
+      "source": "jev",
+      "confidence": 0.65,
+      "advisory_only": true
+    }
+  },
+  {
+    "source": "Codex",
+    "source_id": "01a0d0ac-c493-70a1-b2cd-f44d1a1dcaad",
+    "task_id": "01a0d0ac-c493-70a1-b2cd-f44d1a1dcaad",
+    "title": "Local model and computer-use setup",
+    "scope": "Local assistant/model services and desktop integration; models, credentials and experimental agents are not auto-installed.",
+    "category": "ai",
+    "status": "Source reviewed; see current implementation and limits in docs/change-inventory.md.",
+    "routing": {
+      "model": "qwen3-coder:30b",
+      "reasoning": "medium",
+      "source": "jev",
+      "confidence": 1.0,
+      "advisory_only": true
+    }
+  },
+  {
+    "source": "Codex",
+    "source_id": "01a0defb-8ebb-7570-8547-8a1eb62a62f8",
+    "task_id": "01a0defb-8ebb-7570-8547-8a1eb62a62f8",
+    "title": "Obsidian context integration",
+    "scope": "Read-only local context convention; vault documents and personal instructions are not published.",
+    "category": "reference",
+    "status": "Source reviewed; see current implementation and limits in docs/change-inventory.md.",
+    "routing": {
+      "model": "qwen3.5:4b",
+      "reasoning": "low",
+      "source": "jev",
+      "confidence": 0.65,
+      "advisory_only": true
+    }
+  },
+  {
+    "source": "Codex",
+    "source_id": "01a0df6d-3883-7e82-8c02-0ca4afe6b609",
+    "task_id": "01a0df6d-3883-7e82-8c02-0ca4afe6b609",
+    "title": "Sidebar position diagnosis",
+    "scope": "Persisted bar-position and drag behavior diagnosis.",
+    "category": "desktop",
+    "status": "Source reviewed; see current implementation and limits in docs/change-inventory.md.",
+    "routing": {
+      "model": "qwen3-coder:30b",
+      "reasoning": "medium",
+      "source": "jev",
+      "confidence": 1.0,
+      "advisory_only": true
+    }
+  },
+  {
+    "source": "Codex",
+    "source_id": "01a0df87-8e26-70e0-871c-65a488f0e455",
+    "task_id": "01a0df87-8e26-70e0-871c-65a488f0e455",
+    "title": "Restore Omarchy sidebar",
+    "scope": "Restore the left sidebar; related 3D-scanner investigation documented as hardware-dependent.",
+    "category": "desktop",
+    "status": "Source reviewed; see current implementation and limits in docs/change-inventory.md.",
+    "routing": {
+      "model": "qwen3-coder:30b",
+      "reasoning": "medium",
+      "source": "jev",
+      "confidence": 1.0,
+      "advisory_only": true
+    }
+  },
+  {
+    "source": "Codex",
+    "source_id": "01a0e028-4cd7-7b01-87b4-cb19abdb3704",
+    "task_id": "01a0e028-4cd7-7b01-87b4-cb19abdb3704",
+    "title": "Button 5 dictation reliability",
+    "scope": "Debounce, clipboard delivery and focus handling.",
+    "category": "voice",
+    "status": "Source reviewed; see current implementation and limits in docs/change-inventory.md.",
+    "routing": {
+      "model": "qwen3-coder:30b",
+      "reasoning": "medium",
+      "source": "jev",
+      "confidence": 1.0,
+      "advisory_only": true
+    }
+  },
+  {
+    "source": "Codex",
+    "source_id": "01a0e17c-c3ba-7b63-8887-17bc55b3ca5d",
+    "task_id": "01a0e17c-c3ba-7b63-8887-17bc55b3ca5d",
+    "title": "Selected-text prompt expansion",
+    "scope": "Button 4 expands selected text into a task prompt; no selection sends Enter; explicit Super+button 5 commands.",
+    "category": "voice",
+    "status": "Source reviewed; see current implementation and limits in docs/change-inventory.md.",
+    "routing": {
+      "model": "qwen3-coder:30b",
+      "reasoning": "medium",
+      "source": "jev",
+      "confidence": 1.0,
+      "advisory_only": true
+    }
+  },
+  {
+    "source": "Codex",
+    "source_id": "01a0ef31-b4c5-7dd1-a4b0-57eeaa3bc8cd",
+    "task_id": "01a0ef31-b4c5-7dd1-a4b0-57eeaa3bc8cd",
+    "title": "Hermes and OpenAI routing",
+    "scope": "AI model routing, local model setup and bridge integration; credentials stay outside the repo.",
+    "category": "ai",
+    "status": "Source reviewed; see current implementation and limits in docs/change-inventory.md.",
+    "routing": {
+      "model": "qwen3-coder:30b",
+      "reasoning": "medium",
+      "source": "jev",
+      "confidence": 1.0,
+      "advisory_only": true
+    }
+  },
+  {
+    "source": "Codex",
+    "source_id": "01a0ef6b-6732-7133-a1d9-84bd5b523bd8",
+    "task_id": "01a0ef6b-6732-7133-a1d9-84bd5b523bd8",
+    "title": "JEV harness and desktop integration",
+    "scope": "Model routing and browser tool integration; separate AI application referenced, not bundled into OS defaults.",
+    "category": "ai",
+    "status": "Source reviewed; see current implementation and limits in docs/change-inventory.md.",
+    "routing": {
+      "model": "qwen3-coder:30b",
+      "reasoning": "medium",
+      "source": "jev",
+      "confidence": 1.0,
+      "advisory_only": true
+    }
+  },
+  {
+    "source": "Codex",
+    "source_id": "01a0ef80-8e2b-7162-b763-84c82bc9088f",
+    "task_id": "01a0ef80-8e2b-7162-b763-84c82bc9088f",
+    "title": "Alt-right-click workspace picker",
+    "scope": "Move the pointed-at window to a monitor-local workspace; Edge extension source preserved as optional integration.",
+    "category": "desktop",
+    "status": "Source reviewed; see current implementation and limits in docs/change-inventory.md.",
+    "routing": {
+      "model": "qwen3-coder:30b",
+      "reasoning": "medium",
+      "source": "jev",
+      "confidence": 1.0,
+      "advisory_only": true
+    }
+  },
+  {
+    "source": "Codex",
+    "source_id": "01a0f0f3-8f5c-75a2-ac0c-e80a6b3623a8",
+    "task_id": "01a0f0f3-8f5c-75a2-ac0c-e80a6b3623a8",
+    "title": "Desktop Commander setup",
+    "scope": "Remote control dependency/setup investigation; not a portable desktop default.",
+    "category": "reference",
+    "status": "Source reviewed; see current implementation and limits in docs/change-inventory.md.",
+    "routing": {
+      "model": "qwen3-coder:30b",
+      "reasoning": "medium",
+      "source": "jev",
+      "confidence": 1.0,
+      "advisory_only": true
+    }
+  },
+  {
+    "source": "Codex",
+    "source_id": "01a0f0fc-bef6-7e22-8cd1-e3dd519112ad",
+    "task_id": "01a0f0fc-bef6-7e22-8cd1-e3dd519112ad",
+    "title": "Hermes model configuration",
+    "scope": "Hermes local/OpenAI model routing configuration; authentication is machine/account specific.",
+    "category": "ai",
+    "status": "Source reviewed; see current implementation and limits in docs/change-inventory.md.",
+    "routing": {
+      "model": "qwen3-coder:30b",
+      "reasoning": "medium",
+      "source": "jev",
+      "confidence": 1.0,
+      "advisory_only": true
+    }
+  },
+  {
+    "source": "Codex",
+    "source_id": "01a0c6d3-9806-7a10-b828-42e78ec224ec",
+    "task_id": "01a0c6d3-9806-7a10-b828-42e78ec224ec",
+    "title": "Photo browsing and drive sidebar",
+    "scope": "Context-sensitive photo scrolling, folder launcher, file associations and storage presentation. No client photos or disk contents included.",
+    "category": "desktop",
+    "status": "Current photo source preserved; upstream keyboard race remains a known limitation.",
+    "routing": {
+      "model": "qwen3-coder:30b",
+      "reasoning": "medium",
+      "source": "jev",
+      "confidence": 1.0,
+      "advisory_only": true
+    }
+  },
+  {
+    "source": "Claude",
+    "source_id": "85478557-aebc-4582-977d-a5d6d797bc5d",
+    "task_id": null,
+    "title": "msedge crash investigation",
+    "scope": "Crash investigation retained as diagnostic history. This does not imply an installed or verified fix.",
+    "category": "diagnostics",
+    "status": "Claude source reviewed; latest live code wins over earlier proposals.",
+    "routing": {
+      "model": "qwen3-coder:30b",
+      "reasoning": "medium",
+      "source": "jev",
+      "confidence": 1.0,
+      "advisory_only": true
+    }
+  },
+  {
+    "source": "Claude",
+    "source_id": "6c943142-560c-40aa-a449-12cfcb66bc0b",
+    "task_id": "01a0eead-e726-7e40-bc7d-16e7276e710a",
+    "title": "Python3.14 crash investigation",
+    "scope": "Crash investigation retained as diagnostic history. This does not imply an installed or verified fix.",
+    "category": "diagnostics",
+    "status": "Claude source reviewed; latest live code wins over earlier proposals.",
+    "routing": {
+      "model": "qwen3-coder:30b",
+      "reasoning": "medium",
+      "source": "jev",
+      "confidence": 1.0,
+      "advisory_only": true
+    }
+  },
+  {
+    "source": "Claude",
+    "source_id": "daa7b7dc-c7a0-4deb-9921-497540410715",
+    "task_id": null,
+    "title": "python3.14 crash investigation",
+    "scope": "Crash investigation retained as diagnostic history. This does not imply an installed or verified fix.",
+    "category": "diagnostics",
+    "status": "Claude source reviewed; latest live code wins over earlier proposals.",
+    "routing": {
+      "model": "qwen3-coder:30b",
+      "reasoning": "medium",
+      "source": "jev",
+      "confidence": 1.0,
+      "advisory_only": true
+    }
+  },
+  {
+    "source": "Claude",
+    "source_id": "78b79778-c1f4-4bf3-bad3-e63ee7b14dc9",
+    "task_id": null,
+    "title": "Hyprland crash investigation",
+    "scope": "Crash investigation retained as diagnostic history. This does not imply an installed or verified fix.",
+    "category": "diagnostics",
+    "status": "Claude source reviewed; latest live code wins over earlier proposals.",
+    "routing": {
+      "model": "qwen3-coder:30b",
+      "reasoning": "medium",
+      "source": "jev",
+      "confidence": 1.0,
+      "advisory_only": true
+    }
+  },
+  {
+    "source": "Claude",
+    "source_id": "74d3bd51-62f8-4c1a-93c9-e4cdde27450b",
+    "task_id": null,
+    "title": "chromium crash investigation",
+    "scope": "Crash investigation retained as diagnostic history. This does not imply an installed or verified fix.",
+    "category": "diagnostics",
+    "status": "Claude source reviewed; latest live code wins over earlier proposals.",
+    "routing": {
+      "model": "qwen3-coder:30b",
+      "reasoning": "medium",
+      "source": "jev",
+      "confidence": 1.0,
+      "advisory_only": true
+    }
+  },
+  {
+    "source": "Claude",
+    "source_id": "226fd9d6-5e00-450e-a70f-3348816dde37",
+    "task_id": null,
+    "title": "chromium crash investigation",
+    "scope": "Crash investigation retained as diagnostic history. This does not imply an installed or verified fix.",
+    "category": "diagnostics",
+    "status": "Claude source reviewed; latest live code wins over earlier proposals.",
+    "routing": {
+      "model": "qwen3-coder:30b",
+      "reasoning": "medium",
+      "source": "jev",
+      "confidence": 1.0,
+      "advisory_only": true
+    }
+  },
+  {
+    "source": "Claude",
+    "source_id": "4b6cfe51-7b2c-43e5-86fb-351425019e4f",
+    "task_id": "01a0eead-e715-7561-b311-f202f80dcdef",
+    "title": "msedge crash investigation",
+    "scope": "Crash investigation retained as diagnostic history. This does not imply an installed or verified fix.",
+    "category": "diagnostics",
+    "status": "Claude source reviewed; latest live code wins over earlier proposals.",
+    "routing": {
+      "model": "qwen3-coder:30b",
+      "reasoning": "medium",
+      "source": "jev",
+      "confidence": 1.0,
+      "advisory_only": true
+    }
+  },
+  {
+    "source": "Claude",
+    "source_id": "c211d8d2-cadb-449b-8834-f5cb68192790",
+    "task_id": "01a0eead-e72b-70b2-8fa5-87fc5dced17e",
+    "title": "msedge crash SIGILL",
+    "scope": "Crash investigation retained as diagnostic history. This does not imply an installed or verified fix.",
+    "category": "diagnostics",
+    "status": "Claude source reviewed; latest live code wins over earlier proposals.",
+    "routing": {
+      "model": "qwen3-coder:30b",
+      "reasoning": "medium",
+      "source": "jev",
+      "confidence": 1.0,
+      "advisory_only": true
+    }
+  },
+  {
+    "source": "Claude",
+    "source_id": "6c1c9e98-2036-4285-b0aa-a86dca7fea93",
+    "task_id": "01a0eead-e721-7ef3-ab16-a7e438ff4924",
+    "title": "msedge crash investigation",
+    "scope": "Crash investigation retained as diagnostic history. This does not imply an installed or verified fix.",
+    "category": "diagnostics",
+    "status": "Claude source reviewed; latest live code wins over earlier proposals.",
+    "routing": {
+      "model": "qwen3-coder:30b",
+      "reasoning": "medium",
+      "source": "jev",
+      "confidence": 1.0,
+      "advisory_only": true
+    }
+  },
+  {
+    "source": "Claude",
+    "source_id": "fc604fff-bee1-4146-9f6e-73ccecc8982e",
+    "task_id": "01a0eead-e711-7a61-9e8f-899bad294915",
+    "title": "Python3.14 SIGSEGV crash investigation",
+    "scope": "Crash investigation retained as diagnostic history. This does not imply an installed or verified fix.",
+    "category": "diagnostics",
+    "status": "Claude source reviewed; latest live code wins over earlier proposals.",
+    "routing": {
+      "model": "qwen3-coder:30b",
+      "reasoning": "medium",
+      "source": "jev",
+      "confidence": 1.0,
+      "advisory_only": true
+    }
+  },
+  {
+    "source": "Claude",
+    "source_id": "085a324b-5cf9-42d0-9732-08b7f207b795",
+    "task_id": "01a0eead-e710-70a0-8b7b-6a8093b0d1e6",
+    "title": "Chromium crash SIGABRT investigation",
+    "scope": "Crash investigation retained as diagnostic history. This does not imply an installed or verified fix.",
+    "category": "diagnostics",
+    "status": "Claude source reviewed; latest live code wins over earlier proposals.",
+    "routing": {
+      "model": "gpt-5.5",
+      "reasoning": "high",
+      "source": "jev",
+      "confidence": 0.18,
+      "advisory_only": true
+    }
+  },
+  {
+    "source": "Claude",
+    "source_id": "89460d88-19b0-4ca4-bf62-90615a77b341",
+    "task_id": "01a0eead-e709-7682-a371-a5b4406b588e",
+    "title": "ChatGPT crash SIGBUS",
+    "scope": "Crash investigation retained as diagnostic history. This does not imply an installed or verified fix.",
+    "category": "diagnostics",
+    "status": "Claude source reviewed; latest live code wins over earlier proposals.",
+    "routing": {
+      "model": "qwen3-coder:30b",
+      "reasoning": "medium",
+      "source": "jev",
+      "confidence": 1.0,
+      "advisory_only": true
+    }
+  },
+  {
+    "source": "Claude",
+    "source_id": "c8a491ec-e029-426f-8055-fb8391aa06cf",
+    "task_id": "01a0eead-e70c-7792-a1b3-7d8f0d05b40a",
+    "title": "msedge crash SIGILL investigation",
+    "scope": "Crash investigation retained as diagnostic history. This does not imply an installed or verified fix.",
+    "category": "diagnostics",
+    "status": "Claude source reviewed; latest live code wins over earlier proposals.",
+    "routing": {
+      "model": "qwen3-coder:30b",
+      "reasoning": "medium",
+      "source": "jev",
+      "confidence": 1.0,
+      "advisory_only": true
+    }
+  },
+  {
+    "source": "Claude",
+    "source_id": "df71cf1e-4b64-481e-91e0-b13eaeabb56b",
+    "task_id": "01a0eead-e677-7d11-968b-08c0b0493105",
+    "title": "Msedge crash investigation",
+    "scope": "JEV model-routing harness and desktop service work from a conversation that began with a crash investigation.",
+    "category": "ai",
+    "status": "Claude source reviewed; latest live code wins over earlier proposals.",
+    "routing": {
+      "model": "qwen3.5:4b",
+      "reasoning": "low",
+      "source": "jev",
+      "confidence": 0.89,
+      "advisory_only": true
+    }
+  },
+  {
+    "source": "Claude",
+    "source_id": "fc2ccdb3-26ed-4eec-9729-57483b88ee8e",
+    "task_id": "01a0f323-b86e-7172-948e-4318a5032f05",
+    "title": "gnome-keyring-daemon crash investigation",
+    "scope": "Crash investigation retained as diagnostic history. This does not imply an installed or verified fix.",
+    "category": "diagnostics",
+    "status": "Claude source reviewed; latest live code wins over earlier proposals.",
+    "routing": {
+      "model": "qwen3-coder:30b",
+      "reasoning": "medium",
+      "source": "jev",
+      "confidence": 1.0,
+      "advisory_only": true
+    }
+  },
+  {
+    "source": "Claude",
+    "source_id": "4006b51b-5f94-4d9d-a8d7-be2039284e91",
+    "task_id": "01a0f323-b86b-70d0-b6c8-4b46ad4963ff",
+    "title": "ChatGPT SIGBUS crash",
+    "scope": "Crash investigation retained as diagnostic history. This does not imply an installed or verified fix.",
+    "category": "diagnostics",
+    "status": "Claude source reviewed; latest live code wins over earlier proposals.",
+    "routing": {
+      "model": "qwen3-coder:30b",
+      "reasoning": "medium",
+      "source": "jev",
+      "confidence": 1.0,
+      "advisory_only": true
+    }
+  },
+  {
+    "source": "Claude",
+    "source_id": "a75b9af6-a8de-449d-8009-dd50ba855909",
+    "task_id": "01a0f323-b850-7683-a44f-1aba6f7f083e",
+    "title": "msedge crash investigation",
+    "scope": "Crash investigation retained as diagnostic history. This does not imply an installed or verified fix.",
+    "category": "diagnostics",
+    "status": "Claude source reviewed; latest live code wins over earlier proposals.",
+    "routing": {
+      "model": "qwen3-coder:30b",
+      "reasoning": "medium",
+      "source": "jev",
+      "confidence": 1.0,
+      "advisory_only": true
+    }
+  },
+  {
+    "source": "Claude",
+    "source_id": "7fc04242-590d-4103-9668-0581bb2d3722",
+    "task_id": "01a0f323-b84e-7772-a435-feb14f8804dc",
+    "title": "Python 3.13 SIGBUS crash",
+    "scope": "Crash investigation retained as diagnostic history. This does not imply an installed or verified fix.",
+    "category": "diagnostics",
+    "status": "Claude source reviewed; latest live code wins over earlier proposals.",
+    "routing": {
+      "model": "qwen3-coder:30b",
+      "reasoning": "medium",
+      "source": "jev",
+      "confidence": 1.0,
+      "advisory_only": true
+    }
+  },
+  {
+    "source": "Claude",
+    "source_id": "f3a1951e-7002-4ff0-bde2-caf2f7afccfe",
+    "task_id": "01a0f323-b83e-7673-84d4-234f4642ed3b",
+    "title": "Foot process crash SIGSEGV",
+    "scope": "Crash investigation retained as diagnostic history. This does not imply an installed or verified fix.",
+    "category": "diagnostics",
+    "status": "Claude source reviewed; latest live code wins over earlier proposals.",
+    "routing": {
+      "model": "qwen3-coder:30b",
+      "reasoning": "medium",
+      "source": "jev",
+      "confidence": 1.0,
+      "advisory_only": true
+    }
+  },
+  {
+    "source": "Claude",
+    "source_id": "c837e811-43ed-4eea-a7bb-ccac9003f2b0",
+    "task_id": "01a0f323-b83a-7462-9f23-c7ffd7a5ee65",
+    "title": "Foot process crash investigation",
+    "scope": "Crash investigation retained as diagnostic history. This does not imply an installed or verified fix.",
+    "category": "diagnostics",
+    "status": "Claude source reviewed; latest live code wins over earlier proposals.",
+    "routing": {
+      "model": "qwen3-coder:30b",
+      "reasoning": "medium",
+      "source": "jev",
+      "confidence": 1.0,
+      "advisory_only": true
+    }
+  },
+  {
+    "source": "Claude",
+    "source_id": "bc1b4b20-a6ac-4a2f-ab7e-c39dd4d8a666",
+    "task_id": "01a0f323-b824-7662-a6e9-572ef61412e6",
+    "title": "Foot process crash investigation",
+    "scope": "Crash investigation retained as diagnostic history. This does not imply an installed or verified fix.",
+    "category": "diagnostics",
+    "status": "Claude source reviewed; latest live code wins over earlier proposals.",
+    "routing": {
+      "model": "qwen3-coder:30b",
+      "reasoning": "medium",
+      "source": "jev",
+      "confidence": 1.0,
+      "advisory_only": true
+    }
+  },
+  {
+    "source": "Claude",
+    "source_id": "0c9f7f52-9681-41d1-993a-d529a996370f",
+    "task_id": "01a0f323-b838-7020-9948-c70fc0483b11",
+    "title": "foot process crash SIGSEGV",
+    "scope": "Crash investigation retained as diagnostic history. This does not imply an installed or verified fix.",
+    "category": "diagnostics",
+    "status": "Claude source reviewed; latest live code wins over earlier proposals.",
+    "routing": {
+      "model": "qwen3-coder:30b",
+      "reasoning": "medium",
+      "source": "jev",
+      "confidence": 1.0,
+      "advisory_only": true
+    }
+  },
+  {
+    "source": "Claude",
+    "source_id": "92d9c6b4-eceb-4fd8-8418-78272bf7e31b",
+    "task_id": "01a0f323-b7ee-73e0-8df8-dd5f4ab9d397",
+    "title": "voxtype-vulkan crash investigation",
+    "scope": "Crash investigation retained as diagnostic history. This does not imply an installed or verified fix.",
+    "category": "diagnostics",
+    "status": "Claude source reviewed; latest live code wins over earlier proposals.",
+    "routing": {
+      "model": "qwen3-coder:30b",
+      "reasoning": "medium",
+      "source": "jev",
+      "confidence": 1.0,
+      "advisory_only": true
+    }
+  },
+  {
+    "source": "Claude",
+    "source_id": "745ac1a6-447f-4f90-8289-67f03bb10690",
+    "task_id": "01a0f323-b78d-7b20-a9b9-ee3e4ae9cdb8",
+    "title": "Chromium crash on SIGILL",
+    "scope": "Crash investigation retained as diagnostic history. This does not imply an installed or verified fix.",
+    "category": "diagnostics",
+    "status": "Claude source reviewed; latest live code wins over earlier proposals.",
+    "routing": {
+      "model": "qwen3-coder:30b",
+      "reasoning": "medium",
+      "source": "jev",
+      "confidence": 1.0,
+      "advisory_only": true
+    }
+  },
+  {
+    "source": "Claude",
+    "source_id": "b43c5b83-b5c4-4860-936c-840567aed2e7",
+    "task_id": "01a0f323-b78c-7842-92db-4181f22c3c05",
+    "title": "ChatGPT crash SIGBUS",
+    "scope": "Crash investigation retained as diagnostic history. This does not imply an installed or verified fix.",
+    "category": "diagnostics",
+    "status": "Claude source reviewed; latest live code wins over earlier proposals.",
+    "routing": {
+      "model": "qwen3-coder:30b",
+      "reasoning": "medium",
+      "source": "jev",
+      "confidence": 1.0,
+      "advisory_only": true
+    }
+  },
+  {
+    "source": "Claude",
+    "source_id": "5181b95f-24e2-4862-a3e4-3c06c7393eb2",
+    "task_id": "01a0f323-b790-7023-a942-ef28b522aacf",
+    "title": "Msedge SIGBUS crash investigation",
+    "scope": "Crash investigation retained as diagnostic history. This does not imply an installed or verified fix.",
+    "category": "diagnostics",
+    "status": "Claude source reviewed; latest live code wins over earlier proposals.",
+    "routing": {
+      "model": "qwen3-coder:30b",
+      "reasoning": "medium",
+      "source": "jev",
+      "confidence": 1.0,
+      "advisory_only": true
+    }
+  },
+  {
+    "source": "Claude",
+    "source_id": "875049ad-e57a-4b3f-9ccd-ccfa2a550994",
+    "task_id": "01a0f323-b789-7563-91c1-0f1f5db2f754",
+    "title": "Codex process crash SIGBUS",
+    "scope": "Crash investigation retained as diagnostic history. This does not imply an installed or verified fix.",
+    "category": "diagnostics",
+    "status": "Claude source reviewed; latest live code wins over earlier proposals.",
+    "routing": {
+      "model": "qwen3.5:4b",
+      "reasoning": "low",
+      "source": "jev",
+      "confidence": 0.65,
+      "advisory_only": true
+    }
+  },
+  {
+    "source": "Claude",
+    "source_id": "30879bc7-76bf-4c50-a8e0-a5932aad6806",
+    "task_id": null,
+    "title": "python3.13 crash investigation",
+    "scope": "Crash investigation retained as diagnostic history. This does not imply an installed or verified fix.",
+    "category": "diagnostics",
+    "status": "Claude source reviewed; latest live code wins over earlier proposals.",
+    "routing": {
+      "model": "qwen3-coder:30b",
+      "reasoning": "medium",
+      "source": "jev",
+      "confidence": 1.0,
+      "advisory_only": true
+    }
+  },
+  {
+    "source": "Claude",
+    "source_id": "4e16f486-212c-4951-b4a8-60c02325a3ff",
+    "task_id": null,
+    "title": "gvfsd-metadata crash investigation",
+    "scope": "Crash investigation retained as diagnostic history. This does not imply an installed or verified fix.",
+    "category": "diagnostics",
+    "status": "Claude source reviewed; latest live code wins over earlier proposals.",
+    "routing": {
+      "model": "qwen3-coder:30b",
+      "reasoning": "medium",
+      "source": "jev",
+      "confidence": 1.0,
+      "advisory_only": true
+    }
+  },
+  {
+    "source": "Claude",
+    "source_id": "9e6d2d62-e144-428d-b2fe-21199054f03d",
+    "task_id": null,
+    "title": "Claude desktop local installation",
+    "scope": "Claude desktop installation/launch integration; proprietary binaries and credentials excluded.",
+    "category": "apps",
+    "status": "Claude source reviewed; latest live code wins over earlier proposals.",
+    "routing": {
+      "model": "qwen3.5:9b",
+      "reasoning": "low",
+      "source": "jev",
+      "confidence": 0.04,
+      "advisory_only": true
+    }
+  },
+  {
+    "source": "Claude",
+    "source_id": "d0b2a2e1-4410-48a1-bdec-218e22012aeb",
+    "task_id": null,
+    "title": "Token-efficient model routing",
+    "scope": "Local model routing/computer-use research and setup; no models or private application data published.",
+    "category": "ai",
+    "status": "Claude source reviewed; latest live code wins over earlier proposals.",
+    "routing": {
+      "model": "qwen3-coder:30b",
+      "reasoning": "medium",
+      "source": "jev",
+      "confidence": 1.0,
+      "advisory_only": true
+    }
+  },
+  {
+    "source": "Claude",
+    "source_id": "b43bbe4b-b6f1-4158-83c2-ebf1f5333e1e",
+    "task_id": "01a0eead-e685-7c11-8066-cfc06f3f78cf",
+    "title": "Personal AI interface for local model",
+    "scope": "Local model routing/computer-use research and setup; no models or private application data published.",
+    "category": "ai",
+    "status": "Claude source reviewed; latest live code wins over earlier proposals.",
+    "routing": {
+      "model": "qwen3-coder:30b",
+      "reasoning": "medium",
+      "source": "jev",
+      "confidence": 1.0,
+      "advisory_only": true
+    }
+  },
+  {
+    "source": "Claude",
+    "source_id": "71b54f12-b116-4dde-9000-7ccc7a2e9134",
+    "task_id": "01a0eead-e71c-7200-a4af-4f6f51927342",
+    "title": "TaskGrid feed sync (email \u00b7 Indemnify \u00b7 CI)",
+    "scope": "TaskGrid feed-sync behavior; only source and an empty portable configuration are published, not feed contents.",
+    "category": "taskgrid",
+    "status": "Claude source reviewed; latest live code wins over earlier proposals.",
+    "routing": {
+      "model": "qwen3.5:4b",
+      "reasoning": "low",
+      "source": "jev",
+      "confidence": 0.49,
+      "advisory_only": true
+    }
+  },
+  {
+    "source": "Claude",
+    "source_id": "68c6aa8e-9554-4b13-9fa7-55a2147fc63b",
+    "task_id": "01a0eead-e6b8-73e0-830d-58bbb72254e4",
+    "title": "TaskGrid feed sync (email \u00b7 Indemnify \u00b7 CI)",
+    "scope": "TaskGrid feed-sync behavior; only source and an empty portable configuration are published, not feed contents.",
+    "category": "taskgrid",
+    "status": "Claude source reviewed; latest live code wins over earlier proposals.",
+    "routing": {
+      "model": "qwen3.5:4b",
+      "reasoning": "low",
+      "source": "jev",
+      "confidence": 0.49,
+      "advisory_only": true
+    }
+  },
+  {
+    "source": "Claude",
+    "source_id": "52086857-c8f6-49d7-b755-69add74f7100",
+    "task_id": "01a0eead-e6b0-71c3-9107-aa6aef20de56",
+    "title": "TaskGrid feed sync (email \u00b7 Indemnify \u00b7 CI)",
+    "scope": "TaskGrid feed-sync behavior; only source and an empty portable configuration are published, not feed contents.",
+    "category": "taskgrid",
+    "status": "Claude source reviewed; latest live code wins over earlier proposals.",
+    "routing": {
+      "model": "qwen3.5:4b",
+      "reasoning": "low",
+      "source": "jev",
+      "confidence": 0.49,
+      "advisory_only": true
+    }
+  },
+  {
+    "source": "Claude",
+    "source_id": "186ed7a7-f55f-49bc-bf1d-be648799f4ee",
+    "task_id": "01a0eead-e6be-7ba0-9824-59c1b3179354",
+    "title": "PC sound not working",
+    "scope": "Speaker/audio diagnosis and dictation-paste diagnosis. A proposed script edit was stopped; later live code is authoritative.",
+    "category": "voice",
+    "status": "Claude source reviewed; latest live code wins over earlier proposals.",
+    "routing": {
+      "model": "qwen3-coder:30b",
+      "reasoning": "low",
+      "source": "jev",
+      "confidence": 0.42,
+      "advisory_only": true
+    }
+  },
+  {
+    "source": "Claude",
+    "source_id": "ef515d7f-2e59-4ab1-8779-0a8d76c68ef8",
+    "task_id": "01a0eead-e707-7be3-8997-79b2ebbf1bbb",
+    "title": "Mouse calibration for button clicks",
+    "scope": "Flat mouse acceleration and sensitivity calibration. Latest saved sensitivity is 0.55.",
+    "category": "desktop",
+    "status": "Claude source reviewed; latest live code wins over earlier proposals.",
+    "routing": {
+      "model": "qwen3-coder:30b",
+      "reasoning": "low",
+      "source": "jev",
+      "confidence": 0.38,
+      "advisory_only": true
+    }
+  },
+  {
+    "source": "Claude",
+    "source_id": "d3684e4a-50bb-43cd-a319-900a1c2ab160",
+    "task_id": "01a0eead-e6e6-7c40-a8c4-2365ab1e493f",
+    "title": "Shared folder VM drive access",
+    "scope": "Top-level Windows shared-folder shortcut on a data drive; drive-specific shortcut is not portable.",
+    "category": "vm",
+    "status": "Claude source reviewed; latest live code wins over earlier proposals.",
+    "routing": {
+      "model": "qwen3.5:4b",
+      "reasoning": "low",
+      "source": "jev",
+      "confidence": 0.49,
+      "advisory_only": true
+    }
+  },
+  {
+    "source": "Claude",
+    "source_id": "bd8252f4-93ca-494e-919f-974dca192707",
+    "task_id": "01a0eead-e6d9-7e13-84da-ce4cc70232a7",
+    "title": "Voice to text recognition",
+    "scope": "Dictation returns focus to its destination and uses terminal tags for Ctrl+Shift+V; source and regression tests preserved.",
+    "category": "voice",
+    "status": "Claude source reviewed; latest live code wins over earlier proposals.",
+    "routing": {
+      "model": "qwen3-coder:30b",
+      "reasoning": "low",
+      "source": "jev",
+      "confidence": 0.38,
+      "advisory_only": true
+    }
+  },
+  {
+    "source": "Claude",
+    "source_id": "216db17f-3de1-4080-b673-34ccdf5efdad",
+    "task_id": "01a0f323-b799-7e23-98df-7b6e9c5032d6",
+    "title": "Window border highlight on switch",
+    "scope": "Five-pixel rotating rainbow active border, inactive dimming, and border-angle speed 15.",
+    "category": "desktop",
+    "status": "Claude source reviewed; latest live code wins over earlier proposals.",
+    "routing": {
+      "model": "qwen3-coder:30b",
+      "reasoning": "medium",
+      "source": "jev",
+      "confidence": 1.0,
+      "advisory_only": true
+    }
+  },
+  {
+    "source": "Claude",
+    "source_id": "cea34e79-a57a-4d14-be4c-18ad07bc01b8",
+    "task_id": "01a0eead-e6b9-72e1-9b56-0a456c840421",
+    "title": "Printing and Claude launcher",
+    "scope": "Envelope printing configuration and a Claude launch helper from a mixed conversation; print documents excluded.",
+    "category": "apps",
+    "status": "Local source modifications reviewed; live files reconciled.",
+    "routing": {
+      "model": "qwen3-coder:30b",
+      "reasoning": "low",
+      "source": "jev",
+      "confidence": 0.38,
+      "advisory_only": true
+    }
+  },
+  {
+    "source": "Claude",
+    "source_id": "7178018a-0023-45fc-84c9-bd517e78c5ce",
+    "task_id": "01a0f323-b8ae-7bf3-95fe-95c7ee62416c",
+    "title": "TaskGrid positioning",
+    "scope": "Task overlay placement, translucency and styling. Portable configuration avoids fixed monitor coordinates.",
+    "category": "taskgrid",
+    "status": "Local source modifications reviewed; live files reconciled.",
+    "routing": {
+      "model": "qwen3-coder:30b",
+      "reasoning": "medium",
+      "source": "jev",
+      "confidence": 1.0,
+      "advisory_only": true
+    }
+  },
+  {
+    "source": "Claude",
+    "source_id": "f872ddcf-ad23-4f96-807c-ca58b429d3c7",
+    "task_id": "01a0eead-e6ea-7db1-b20e-55b810c3db59",
+    "title": "TaskGrid feeds and appearance",
+    "scope": "Aggregate tasks from configured local sources and style the overlay. Private feeds are excluded and disabled by default.",
+    "category": "taskgrid",
+    "status": "Local source modifications reviewed; live files reconciled.",
+    "routing": {
+      "model": "qwen3-coder:30b",
+      "reasoning": "medium",
+      "source": "jev",
+      "confidence": 1.0,
+      "advisory_only": true
+    }
+  },
+  {
+    "source": "Claude",
+    "source_id": "30c4a46f-53ec-494f-a85b-dbe10d541bfd",
+    "task_id": "01a0eead-e69a-7a32-92c8-011aade9cc89",
+    "title": "Voxtype accuracy and delivery",
+    "scope": "Controller changes and regression tests for recording and paste reliability.",
+    "category": "voice",
+    "status": "Local source modifications reviewed; live files reconciled.",
+    "routing": {
+      "model": "qwen3.5:4b",
+      "reasoning": "low",
+      "source": "jev",
+      "confidence": 0.49,
+      "advisory_only": true
+    }
+  },
+  {
+    "source": "Claude",
+    "source_id": "4ad172e0-141f-460f-871a-2b1087d9d5b9",
+    "task_id": "01a0f323-b888-7b30-b393-31dedd8791cf",
+    "title": "Create TaskGrid desktop overlay",
+    "scope": "Original GTK4 layer-shell task widget, launcher, autostart, collapse shortcut, local task persistence and session-source readers.",
+    "category": "taskgrid",
+    "status": "Original implementation and latest installed source reviewed.",
+    "routing": {
+      "model": "qwen3-coder:30b",
+      "reasoning": "medium",
+      "source": "jev",
+      "confidence": 1.0,
+      "advisory_only": true
+    }
+  }
+]

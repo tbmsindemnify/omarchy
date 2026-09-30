@@ -1,0 +1,22 @@
+name = "TBM Midnight"
+version = "1.0.0"
+palette = "package"
+layout = "wide"
+
+[colors]
+background = "#0B1020"
+foreground = "#EEF3FF"
+accent = "#5EEAD4"
+recording = "#5EEAD4"
+streaming = "#60A5FA"
+transcribing = "#C084FC"
+idle = "#94A3B8"
+success = "#4ADE80"
+warning = "#FBBF24"
+error = "#FB7185"
+
+[frame]
+background = "background"
+border = "state"
+glow = true
+halo = false
