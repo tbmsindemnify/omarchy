@@ -1,6 +1,6 @@
 # Omarchy conversation consolidation
 
-Reviewed 2026-09-30. This is the single index for the desktop-related portions of 78 local Codex/Claude source conversations. Original conversations remain in their respective apps; their histories cannot be merged in place. Imported Claude duplicates are represented by the original source ID and the corresponding Codex task ID, when available.
+Reviewed 2026-09-30; Windows/storage scope updated 2026-10-02. This is the single index for the desktop-related portions of 80 local Codex/Claude source conversations. Original conversations remain in their respective apps; their histories cannot be merged in place. Imported Claude duplicates are represented by the original source ID and the corresponding Codex task ID, when available.
 
 Public summaries below are deliberately scoped to desktop work. No raw chat transcripts, client records, account details, attachments or secret-bearing tool logs are published. Titles below are descriptive public labels; source IDs identify the exact original.
 
@@ -114,11 +114,18 @@ Public summaries below are deliberately scoped to desktop work. No raw chat tran
 | Claude `f872ddcf-ad23-4f96-807c-ca58b429d3c7`; Codex import `01a0eead-e6ea-7db1-b20e-55b810c3db59` | **TaskGrid feeds and appearance** — Aggregate tasks from configured local sources and style the overlay. Private feeds are excluded and disabled by default. | `qwen3-coder:30b` (medium) |
 | Claude `4ad172e0-141f-460f-871a-2b1087d9d5b9`; Codex import `01a0f323-b888-7b30-b393-31dedd8791cf` | **Create TaskGrid desktop overlay** — Original GTK4 layer-shell task widget, launcher, autostart, collapse shortcut, local task persistence and session-source readers. | `qwen3-coder:30b` (medium) |
 
-### Vm
+### Windows VM, scans and storage
+
+Implementation and recovery: [Windows VM, scans and storage](docs/windows-scans-storage.md).
+The following related sources are also consolidated here without publishing transcripts:
+
+- Codex `01a0cad1-0481-7962-9711-2b27bc5088b6`: **Choose NAS software stack** — NAS and backup preparation; file-copy completion was not verified.
+- Codex `01a0c9f1-21a7-76f1-a22b-d8952bf12eb2`: **Flash Raspberry Pi microSD** — backup media and mount-lifecycle recovery; later repair remained unresolved in the inspected turn.
+- Drive naming and NVMe hardware guidance remain indexed in the storage sections above.
 
 | Source | Topic and scope | Suggested model |
 | --- | --- | --- |
-| Codex `01a0c449-467b-7d90-b608-de4ad11b84c4` | **Windows virtual machine connection** — Windows VM start/connection and existing-machine migration investigation. | `qwen3-coder:30b` (medium) |
+| Codex `01a0c449-467b-7d90-b608-de4ad11b84c4` | **Windows virtual machine connection** — Windows VM start/connection, workspace 2, October 2 RDP repair and 4-vCPU/512-GiB configuration; guest partition expansion remains pending. | `qwen3-coder:30b` (medium) |
 | Codex `01a0c5b7-fe17-7480-896b-1b37cdebae06` | **Universal shared scans folder** — Shared scans convention only; unrelated business application work excluded. | `qwen3.5:4b` (low) |
 | Codex `01a0c604-bc18-7ca3-b6d2-07e1c672de10` | **Attach external drive to Windows VM** — USB passthrough and BitLocker status investigation; recovery keys and device identifiers excluded. | `qwen3-coder:30b` (medium) |
 | Codex `01a0c9cf-5444-7250-9de8-b50e8e497191` | **Windows fills workspace beside sidebar** — RDP sizing wrapper and zero-gap workspace rule, preserving the sidebar. | `qwen3-coder:30b` (medium) |

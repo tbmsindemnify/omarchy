@@ -5,7 +5,14 @@ vm_window=$(hyprctl -j clients | jq -r '.[] | select(.class == "xfreerdp" and .t
 if [[ -n "$vm_window" ]]; then
   hyprctl dispatch "hl.dsp.focus({ window = \"address:$vm_window\" })" >/dev/null
   hyprctl dispatch 'hl.dsp.window.fullscreen_state({ internal = 1, client = 1 })' >/dev/null
+elif [[ -r "$HOME/.config/windows/credentials" ]] && nc -z -w 1 127.0.0.1 3389 >/dev/null 2>&1; then
+  # The guest is already running; reconnect without another Docker authorization.
+  exec "$HOME/.config/windows/bin/xfreerdp3"
 elif [[ -f /var/lib/omarchy/windows/docker-compose.yml || -f "$HOME/.config/windows/docker-compose.yml" ]]; then
+  # Clear inherited setgid flags before the stock mount privacy check.
+  for directory in "$HOME/Windows" "$HOME/.windows"; do
+    [[ ! -d "$directory" ]] || chmod g-s "$directory"
+  done
   exec uwsm-app -- env PATH="$HOME/.config/windows/bin:$PATH" omarchy windows vm launch --keep-alive
 else
   exec omarchy launch terminal omarchy windows vm install

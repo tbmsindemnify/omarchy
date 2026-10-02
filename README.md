@@ -4,9 +4,11 @@ My personal desktop setup, rebuilt from the Omarchy customizations made in Septe
 
 Includes the wider themed sidebar, larger workspace buttons, outline app launchers, independent five-workspace monitor groups, voice dictation and desktop commands, selected-text prompt expansion, rainbow focus borders, TaskGrid, mouse-button Enter, multicolor Matrix screensaver, terminal preferences, photo-folder navigation, and document templates. Optional integrations cover Windows/scanning, Hermes, local AI, printers, Bluetooth, and storage presentation.
 
+The [Windows VM, scans and storage guide](docs/windows-scans-storage.md) collects the VM configuration, shared scanning workflow, storage and recovery notes.
+
 ## Consolidated history
 
-[THREADS.md](THREADS.md) gathers **78 source conversations: 33 Codex and 45 Claude**, with scoped summaries, source identifiers, and JEV-generated model suggestions. It also records five earlier recovered ChatGPT background topics.
+[THREADS.md](THREADS.md) gathers **80 source conversations: 35 Codex and 45 Claude**, with scoped summaries, source identifiers, and JEV-generated model suggestions. It also records five earlier recovered ChatGPT background topics.
 
 ## Set up another PC
 

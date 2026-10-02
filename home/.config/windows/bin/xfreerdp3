@@ -1,6 +1,44 @@
-#!/bin/bash
-# Fit the RDP desktop to the primary workspace monitor, preserving reserved panels.
-set -euo pipefail
-primary=$(python3 -c 'import json,pathlib; print(next(iter(json.loads((pathlib.Path.home()/".config/omarchy/workspace-map.json").read_text())), ""))')
-size=$(hyprctl monitors -j | jq -r --arg primary "$primary" '[.[] | select(.name == $primary or ($primary == "" and .focused))][0] | if . == null then "1920x1080" else "\(((.width / .scale) - .reserved[0] - .reserved[2]) | floor)x\(((.height / .scale) - .reserved[1] - .reserved[3]) | floor)" end')
-exec /usr/bin/xfreerdp3 "$@" /size:"$size" +dynamic-resolution -decorations
+#!/usr/bin/python3
+"""Local Windows RDP connection, without the optional X11 floating toolbar."""
+import json
+import os
+from pathlib import Path
+import subprocess
+import sys
+
+args = [a for a in sys.argv[1:] if not a.startswith('/floatbar')]
+if not args:
+    if not (Path.home() / '.config/windows/credentials').is_file():
+        raise SystemExit('Windows credentials missing; connect using the Omarchy VM launcher first.')
+    credentials = dict(line.split('=', 1) for line in
+        (Path.home() / '.config/windows/credentials').read_text().splitlines())
+    args = ['/u:' + credentials['USERNAME'], '/p:' + credentials['PASSWORD'],
+            '/v:127.0.0.1:3389', '-grab-keyboard', '/sound', '/microphone',
+            '/clipboard', '/cert:ignore', '/title:Windows VM - Omarchy',
+            '/dynamic-resolution', '/gfx:AVC444']
+# Match the dedicated workspace from connection time; avoid delayed resize races.
+args = [a for a in args if not a.startswith(('/size:', '/gfx:', '/gdi:')) and a not in
+        ('/dynamic-resolution', '+dynamic-resolution', '-dynamic-resolution')]
+monitors = json.loads(subprocess.check_output(['hyprctl', 'monitors', '-j']))
+try:
+    mapping = json.loads((Path.home() / '.config/omarchy/workspace-map.json').read_text())
+    primary = next(iter(mapping), '')
+except (OSError, ValueError):
+    primary = ''
+if not monitors:
+    raise SystemExit('No active monitor available for Windows VM')
+m = next((m for m in monitors if m['name'] == primary),
+         next((m for m in monitors if m.get('focused')), monitors[0]))
+r = m.get('reserved', [0, 0, 0, 0])
+width = int(m['width'] / m['scale'] - r[0] - r[2])
+height = int(m['height'] / m['scale'] - r[1] - r[3])
+args += [f'/size:{width}x{height}', '-dynamic-resolution', '/gdi:sw']
+env = os.environ.copy()
+krb5 = Path.home() / '.config/windows/krb5.conf'
+if krb5.is_file():
+    env['KRB5_CONFIG'] = str(krb5)
+if any('\n' in arg or '\r' in arg for arg in args):
+    raise SystemExit('RDP arguments must not contain newlines')
+# Pass credentials through stdin, keeping them out of the real client's argv.
+sys.exit(subprocess.run(['/usr/bin/xfreerdp3', '/args-from:stdin'],
+    input='\n'.join(args) + '\n', text=True, env=env).returncode)

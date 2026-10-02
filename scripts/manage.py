@@ -64,6 +64,7 @@ def machine_files(names):
             lines.append('hl.workspace_rule({ workspace = "%s", monitor = %s, persistent = true })' % (index * 5 + slot, json.dumps(name)))
     monitor = ', monitor = ' + json.dumps(names[0]) if names else ''
     lines.append('o.window({ class = "^xfreerdp$", title = "^Windows VM - Omarchy$" }, { workspace = "2", maximize = true%s })' % monitor)
+    lines.append('hl.workspace_rule({ workspace = "2", gaps_in = 0, gaps_out = 0, no_border = true, no_rounding = true })')
     return {
         '.config/hypr/tbm-machine.lua': ('\n'.join(lines) + '\n').encode(),
         '.config/omarchy/workspace-map.json': (json.dumps({n: i * 5 for i, n in enumerate(names)}) + '\n').encode(),

@@ -43,6 +43,8 @@ After installing managed files, run `python3 scripts/install-edge-menu.py`. Open
 
 ## Windows, scanning and printers
 
+See [Windows VM, scans and storage](windows-scans-storage.md) for the launcher, resource settings, disk-capacity caveat and recovery steps.
+
 Provision Windows using Omarchy's supported VM installer or migrate the VM separately. No VM disk, license, credentials, browser login or Windows apps are included. The RDP wrapper sizes the desktop beside the sidebar on workspace 2.
 
 The established shared folder convention is `~/Windows/Scans` on Linux and `\\host.lan\Data\Scans` inside the Docker Windows VM. Create the folder and verify the bind mount in that PC's generated VM config. Scanner USB IDs and bus paths differ by machine. Canon R30 work used CaptureOnTouch Lite in Windows; test one scan on the new machine. Configure the HP printer through the new PC's print settings and verify a test page.

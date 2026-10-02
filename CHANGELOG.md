@@ -17,3 +17,10 @@
 - Added portable workspace-picker/RDP mappings and optional Edge menu source.
 - Removed machine identifiers, personal account/vocabulary fields, private feeds, original hardware snapshots and unverified portrait artwork from the public tree.
 - Protected adapted files from capture and documented current behavior and new-PC verification limits.
+
+## 2026-10-02 — Windows VM, scans and storage
+
+- Consolidated the Windows/scanning/storage topic under Omarchy with a dedicated setup and recovery guide.
+- Captured the working VM reconnect launcher and adapted the RDP software-rendering/fixed-size workaround to generated monitor mappings. Credentials remain local and reach the client through stdin.
+- Generated zero-gap workspace 2 rules alongside the existing maximize/monitor rule.
+- Documented 4-vCPU, 8-GiB RAM, 512-GiB virtual capacity preferences and the still-unallocated guest disk space; no partition change is performed by setup.
