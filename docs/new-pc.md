@@ -67,3 +67,11 @@ File rollback does not uninstall packages/models, remove compiled binaries, reve
 - Stop TaskGrid with `taskgrid stop` before removing its autostart/launcher.
 
 Pull repository updates, preview the installer, then apply. Capture only allowlisted unprotected files; `capture: false` files intentionally differ from the source machine. Public preflight must pass before committing or pushing any new customization.
+
+## Sidebar Apps and keyboard focus
+
+The `apps` text button opens the installed desktop applications to the right of the sidebar. Scroll or search the list and press Enter to launch. Sunshine is hidden from the tray, without uninstalling or stopping its service.
+
+Space alone selects Gmail in the sidebar. Up/Down cycle through mail and application buttons, Enter activates, and Escape returns keyboard focus to the application. **This global binding intercepts ordinary typing spaces.** To preserve spaces in text fields, change both `SPACE` occurrences in the sidebar binding at the end of `~/.config/hypr/bindings.lua` to `SUPER + SPACE`, then reload Hyprland. This replaces the existing Super+Space menu shortcut.
+
+The Apps plugin adapts the installed Omarchy menu and application library. It is included explicitly in the installation/capture manifest. The live host reported 72 apps and correct panel coordinates on both monitors; physical clicking, scrolling and key delivery still require verification on a desktop with native input access.

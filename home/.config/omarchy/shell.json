@@ -35,6 +35,9 @@
       ],
       "right": [
         {
+          "id": "tbm.apps"
+        },
+        {
           "id": "omarchy.tray"
         },
         {
@@ -59,7 +62,7 @@
           "format": "dddd HH:mm",
           "formatAlt": "d MMMM 'W'ww yyyy",
           "id": "omarchy.clock",
-          "verticalFormat": "ddd\nHH\n—\nmm"
+          "verticalFormat": "ddd\nHH\n\u2014\nmm"
         }
       ]
     },

@@ -170,7 +170,7 @@ BarWidget {
     for (var i = 0; i < values.length; i++) {
       var item = values[i]
       if (item.status === Status.Passive) continue
-      if (ownedByOmarchy(item)) continue
+      if (ownedByOmarchy(item) || TrayModel.itemNamed(item, "sunshine")) continue
       if (category === "all") {
         result.push(item)
         continue

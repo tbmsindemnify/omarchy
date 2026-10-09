@@ -65,3 +65,8 @@ for workspace = 1, 10 do
   o.bind("SUPER + SHIFT + ALT + " .. key, "Move window silently to workspace " .. workspace,
     hl.dsp.window.move({ workspace = tostring(workspace), follow = false }))
 end
+
+-- Space alone focuses the sidebar; this also intercepts typing spaces.
+-- Use SUPER + SPACE instead here if normal typing spaces are needed.
+hl.unbind("SPACE")
+o.bind("SPACE", "Sidebar at Gmail", "omarchy-shell tbm-dock focus")

@@ -24,3 +24,10 @@
 - Captured the working VM reconnect launcher and adapted the RDP software-rendering/fixed-size workaround to generated monitor mappings. Credentials remain local and reach the client through stdin.
 - Generated zero-gap workspace 2 rules alongside the existing maximize/monitor rule.
 - Documented 4-vCPU, 8-GiB RAM, 512-GiB virtual capacity preferences and the still-unallocated guest disk space; no partition change is performed by setup.
+
+## 2026-10-09 — Sidebar Apps menu and keyboard navigation
+
+- Hide Sunshine from the tray and add a text-only `apps` button.
+- Open the installed application menu beside the sidebar on its monitor, capped at 580 pixels with scrolling and the existing application search/launch behavior.
+- Space alone focuses the sidebar at Gmail; Up/Down select launchers, Enter activates, and Escape releases focus. The binding intercepts normal typing spaces; change it to `SUPER + SPACE` to preserve typing.
+- Runtime IPC confirmed 72 app rows, 300-by-580 panels on both monitors, Gmail selection, and a registered unmodified Space binding with no Hyprland config errors. Native desktop clicking, scrolling and key delivery were unavailable and remain unverified.

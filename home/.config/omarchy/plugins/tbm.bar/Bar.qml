@@ -351,6 +351,34 @@ Item {
     moduleSlots = next
   }
 
+  property bool keyboardNavigation: false
+  property string navigationScreen: ""
+  property var navigationTargets: []
+  property int navigationIndex: 0
+  function focusSidebar() {
+    navigationScreen = focusedScreenName()
+    var names = ["Gmail — Tyler", "Outlook — Microsoft mail", "Apps", "Windows virtual machine", "Codex", "Hermes Desktop", "Claude", "Microsoft Edge"]
+    navigationTargets = clickTargets.filter(function(t) {
+      var w = targetWindow(t)
+      return t && t.visible && w && w.screen && w.screen.name === navigationScreen && names.indexOf(t.tooltipText) !== -1
+    }).sort(function(a,b) { return a.mapToItem(null,0,0).y - b.mapToItem(null,0,0).y })
+    navigationIndex = Math.max(0, navigationTargets.findIndex(function(t) { return t.tooltipText === "Gmail — Tyler" }))
+    keyboardNavigation = navigationTargets.length > 0
+  }
+  IpcHandler {
+    target: "tbm-dock"
+    function focus(): void { root.focusSidebar() }
+    function selection(): string { return root.keyboardNavigation && root.navigationTargets[root.navigationIndex] ? root.navigationTargets[root.navigationIndex].tooltipText : "" }
+    function cancel(): void { root.keyboardNavigation = false }
+    function geometry(): string {
+      return JSON.stringify(root.clickTargets.filter(function(t) { return t && t.visible && t.width > 0 && t.height > 0 }).map(function(t) {
+        var p = t.mapToItem(null, t.width / 2, t.height / 2)
+        var w = root.targetWindow(t)
+        return {text:t.tooltipText || t.text || "", screen:w && w.screen ? w.screen.name : "", x:p.x, y:p.y, width:t.width, height:t.height, scale:t.scale}
+      }))
+    }
+  }
+
   function debugBarGeometry() {
     var out = []
     for (var i = 0; i < moduleSlots.length; i++) {
@@ -1273,6 +1301,38 @@ Item {
       color: Qt.alpha(Color.accent, 0.38)
     }
     surfaceFormat.opaque: false
+    readonly property bool keyboardActive: root.keyboardNavigation && screen.name === root.navigationScreen
+    WlrLayershell.keyboardFocus: keyboardActive ? WlrKeyboardFocus.Exclusive : WlrKeyboardFocus.None
+    Item {
+      id: keyboardController
+      z: 100
+      anchors.fill: parent
+      focus: barWindow.keyboardActive
+      onFocusChanged: if (focus) forceActiveFocus()
+      Keys.onPressed: function(event) {
+        if (!barWindow.keyboardActive) return
+        if (event.key === Qt.Key_Down || event.key === Qt.Key_Tab) root.navigationIndex = (root.navigationIndex + 1) % root.navigationTargets.length
+        else if (event.key === Qt.Key_Up) root.navigationIndex = (root.navigationIndex + root.navigationTargets.length - 1) % root.navigationTargets.length
+        else if (event.key === Qt.Key_Escape) root.keyboardNavigation = false
+        else if (event.key === Qt.Key_Return || event.key === Qt.Key_Enter) {
+          var selected = root.navigationTargets[root.navigationIndex]
+          root.keyboardNavigation = false
+          if (selected) selected.triggerPress(Qt.LeftButton)
+        } else if (event.key === Qt.Key_Space) root.navigationIndex = 0
+        event.accepted = true
+      }
+      Rectangle {
+        z: 100
+        visible: barWindow.keyboardActive
+        readonly property var selected: root.navigationTargets[root.navigationIndex] || null
+        readonly property var point: selected ? selected.mapToItem(keyboardController, selected.width / 2, selected.height / 2) : Qt.point(0,0)
+        x: point.x - width / 2
+        y: point.y - height / 2
+        width: 44; height: 44; radius: 12
+        color: Qt.alpha(Color.accent, 0.13)
+        border.width: 2; border.color: Color.accent
+      }
+    }
     WlrLayershell.namespace: "omarchy-bar"
     WlrLayershell.layer: WlrLayer.Top
 

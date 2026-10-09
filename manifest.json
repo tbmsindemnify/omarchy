@@ -472,5 +472,21 @@
   {
     "path": "Templates/Word Document.odt",
     "group": "core"
+  },
+  {
+    "path": ".config/omarchy/plugins/tbm.apps/manifest.json",
+    "group": "core"
+  },
+  {
+    "path": ".config/omarchy/plugins/tbm.apps/BarWidget.qml",
+    "group": "core"
+  },
+  {
+    "path": ".config/omarchy/plugins/tbm.apps/Menu.qml",
+    "group": "core"
+  },
+  {
+    "path": ".config/omarchy/plugins/tbm.apps/MenuModel.js",
+    "group": "core"
   }
 ]
