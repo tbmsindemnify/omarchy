@@ -70,7 +70,7 @@ Pull repository updates, preview the installer, then apply. Capture only allowli
 
 ## Sidebar Apps and keyboard focus
 
-The `apps` text button opens the installed desktop applications to the right of the sidebar. Scroll or search the list and press Enter to launch. Sunshine is hidden from the tray, without uninstalling or stopping its service.
+The `apps` text button opens an animated translucent tie-dye dropdown of installed desktop applications to the right of the sidebar, extending to the bottom of the screen. Scroll or search the list and press Enter to launch. Sunshine and duplicate ChatGPT entries are hidden from the tray, without uninstalling or stopping its service.
 
 Space alone selects Gmail in the sidebar. Up/Down cycle through mail and application buttons, Enter activates, and Escape returns keyboard focus to the application. **This global binding intercepts ordinary typing spaces.** To preserve spaces in text fields, change both `SPACE` occurrences in the sidebar binding at the end of `~/.config/hypr/bindings.lua` to `SUPER + SPACE`, then reload Hyprland. This replaces the existing Super+Space menu shortcut.
 

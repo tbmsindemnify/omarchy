@@ -31,3 +31,10 @@
 - Open the installed application menu beside the sidebar on its monitor, capped at 580 pixels with scrolling and the existing application search/launch behavior.
 - Space alone focuses the sidebar at Gmail; Up/Down select launchers, Enter activates, and Escape releases focus. The binding intercepts normal typing spaces; change it to `SUPER + SPACE` to preserve typing.
 - Runtime IPC confirmed 72 app rows, 300-by-580 panels on both monitors, Gmail selection, and a registered unmodified Space binding with no Hyprland config errors. Native desktop clicking, scrolling and key delivery were unavailable and remain unverified.
+
+### Animated translucent Apps panel
+
+- Add an animated translucent tie-dye background and 320ms downward reveal.
+- Extend the popup to the bottom edge of its monitor and clip the app list to the actual card height, fixing rows painting outside the former 580px box.
+- Restore the first app after opening and hide duplicate ChatGPT tray entries while retaining the Codex launcher.
+- Runtime IPC confirms app population and animation; native click, scroll and visual triple-check verification remain unavailable in this chat environment.

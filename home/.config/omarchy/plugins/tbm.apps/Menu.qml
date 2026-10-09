@@ -52,7 +52,7 @@ Item {
   IpcHandler {
     target: "tbm-apps-state"
     function state(): string {
-      return JSON.stringify({library:!!root.appLibrary, apps:root.appLibrary ? root.appLibrary.sortedEntries("").length : -1, provider:root.items.apps ? root.items.apps.provider : "missing", opened:root.opened, rowsLoaded:root.rowsLoaded, menu:root.activeMenu, count:displayModel.count, selected:root.selectedIndex, x:card.x, y:card.y, width:card.width, height:card.height, screen:panel.screen ? panel.screen.name : ""})
+      return JSON.stringify({library:!!root.appLibrary, apps:root.appLibrary ? root.appLibrary.sortedEntries("").length : -1, provider:root.items.apps ? root.items.apps.provider : "missing", opened:root.opened, rowsLoaded:root.rowsLoaded, menu:root.activeMenu, listHeight:resultList.height, contentHeight:resultList.contentHeight, scrollY:resultList.contentY, reveal:root.revealProgress, phase:tieDye.phase, count:displayModel.count, selected:root.selectedIndex, x:card.x, y:card.y, width:card.width, height:card.height, screen:panel.screen ? panel.screen.name : ""})
     }
   }
 
@@ -98,7 +98,10 @@ Item {
   // Bound to the central [menu] section in shell.toml via Color.qml.
   // Each color already includes its alpha companion (composed in the
   // singleton), so consumers can drop them straight into a Rectangle.
-  property color background: Color.menu.background
+  property color background: Qt.rgba(0.025, 0.03, 0.045, 0.38)
+  property real revealProgress: opened ? 1 : 0
+  onRevealProgressChanged: if (revealProgress >= 0.999 && selectedIndex === 0) Qt.callLater(function() { resultList.positionViewAtBeginning() })
+  Behavior on revealProgress { NumberAnimation { duration: 320; easing.type: Easing.OutCubic } }
   property color foreground: Color.menu.text
   property color border: Color.menu.border
   property var borderSpec: Border.surfaceSpec("menu", "border", border, Math.max(1, Style.space(2)))
@@ -126,7 +129,7 @@ Item {
   property int visibleRowsHeight: root.dmenuActive ? dmenuRowListHeight(layoutSerial, displayModel.count, filterText) : rowListHeight(layoutSerial, displayModel.count, filterText, searchDivider)
   property int cardHeight: root.dmenuActive
     ? Math.min(contentMargin * 2 + headerHeight + (mode === "input" ? 0 : contentSpacing + visibleRowsHeight), panel.height - Style.gapsOut * 2)
-    : Math.min(580, contentMargin * 2 + headerHeight + contentSpacing + visibleRowsHeight, panel.height - Style.gapsOut * 2)
+    : Math.max(120, panel.height - panel.effectiveCardTop - Style.gapsOut)
 
   function finishRequest(selection) {
     if (!root.requestActive || !root.doneFile) {
@@ -166,13 +169,13 @@ Item {
   // Uses panel.cardTop rather than effectiveCardTop: the centered top is
   // derived from the card height, which this value feeds.
   function availableRowsHeight() {
-    var top = panel.cardTop >= 0 ? panel.cardTop : Style.gapsOut
+    var top = Math.max(Style.gapsOut, Math.min(root.sidebarY, panel.height - 200))
     var available = panel.height - top - Style.gapsOut - root.contentMargin * 2 - root.headerHeight - root.contentSpacing
     // The starting menu sets the ceiling along with the offset: drilling into
     // a longer submenu scrolls behind the fold instead of growing the card.
     if (panel.maxRowsHeight >= 0) available = Math.min(available, panel.maxRowsHeight)
     // A card that swallows the whole screen reads as a page, not a menu.
-    return Math.min(available, Math.round(panel.height * 0.7))
+    return Math.max(0, available)
   }
 
   // When every row fits, the list gets its full height. When they don't,
@@ -1047,7 +1050,7 @@ Item {
     // card may grow from there. Closing unfreezes both.
     property int cardTop: -1
     property int maxRowsHeight: -1
-    readonly property int centeredTop: Math.max(Style.gapsOut, Math.min(root.sidebarY, height - root.cardHeight - Style.gapsOut))
+    readonly property int centeredTop: Math.max(Style.gapsOut, Math.min(root.sidebarY, height - 200))
     readonly property int effectiveCardTop: cardTop >= 0 ? cardTop : centeredTop
     function freezeCardTop() {
       if (visible && cardTop < 0) {
@@ -1070,7 +1073,9 @@ Item {
     BorderSurface {
       id: card
       width: root.cardWidth
-      height: Math.min(root.cardHeight, panel.height - Style.gapsOut - panel.effectiveCardTop)
+      height: Math.min(root.cardHeight, panel.height - Style.gapsOut - panel.effectiveCardTop) * root.revealProgress
+      opacity: root.revealProgress
+      clip: true
       radius: root.cornerRadius
       x: Math.max(Style.gapsOut, Math.min(root.sidebarX, panel.width - width - Style.gapsOut))
       y: panel.effectiveCardTop
@@ -1078,6 +1083,40 @@ Item {
       borderSpec: root.borderSpec
       padding: root.contentMargin
 
+      Canvas {
+        id: tieDye
+        anchors.fill: parent
+        z: 0
+        property real phase: 0
+        onWidthChanged: requestPaint()
+        onHeightChanged: requestPaint()
+        onPaint: {
+          var ctx = getContext("2d")
+          ctx.clearRect(0, 0, width, height)
+          var colors = ["rgba(235,55,135,0.07)", "rgba(60,95,245,0.08)", "rgba(15,195,145,0.07)", "rgba(235,160,25,0.06)", "rgba(165,65,230,0.08)"]
+          for (var field = 0; field < 7; field++) {
+            var cx = width * (0.5 + 0.48 * Math.sin(field * 2.7 + phase * 0.16))
+            var cy = height * (field / 6 + 0.06 * Math.cos(phase * 0.12 + field))
+            for (var ring = 8; ring > 0; ring--) {
+              ctx.beginPath()
+              for (var i = 0; i <= 96; i++) {
+                var angle = i / 96 * Math.PI * 2
+                var radius = (22 + ring * 13) * (1 + 0.18 * Math.sin(angle * 5 + field + phase * 0.3) + 0.12 * Math.sin(angle * 9 - phase * 0.2))
+                var x = cx + Math.cos(angle) * radius
+                var y = cy + Math.sin(angle) * radius * 1.7
+                if (i === 0) ctx.moveTo(x,y); else ctx.lineTo(x,y)
+              }
+              ctx.closePath()
+              ctx.fillStyle = colors[(field + ring) % colors.length]
+              ctx.fill()
+            }
+          }
+        }
+        Timer {
+          interval: 100; repeat: true; running: root.opened && root.revealProgress > 0.99
+          onTriggered: { tieDye.phase += 0.1; tieDye.requestPaint() }
+        }
+      }
       MouseArea { anchors.fill: parent; onClicked: {} }
 
       Item {
@@ -1182,7 +1221,7 @@ Item {
 
         Item {
           width: parent.width
-          height: root.visibleRowsHeight
+          height: Math.max(0, card.height - root.contentMargin * 2 - root.headerHeight - root.contentSpacing)
 
           ListView {
             id: resultList
