@@ -2,19 +2,23 @@ use cairo::{Context, LineCap, RadialGradient};
 use std::f64::consts::{PI, TAU};
 #[path = "molecule.rs"]
 mod molecule;
+#[path = "atlas.rs"]
+mod atlas;
 
 pub const STYLE_NAMES: [&str; 10] = [
-    "Chromatic",
-    "Spiral",
-    "Molecular",
-    "Blueprint",
-    "Neon",
-    "Wireframe",
-    "Isometric",
-    "Particles",
-    "Liquid",
-    "Hologram",
+    "Prismatic sculpted double helix",
+    "Polished twin-ribbon spiral",
+    "Measured molecular ball-and-stick DNA",
+    "Illuminated engineering blueprint helix",
+    "Dual-color luminous glass helix",
+    "Architectural wire-mesh double helix",
+    "Faceted isometric DNA sculpture",
+    "Volumetric suspended-particle helix",
+    "Mercury-and-opal liquid morph helix",
+    "Layered spectral holographic helix",
 ];
+
+pub const STYLE_IDS: [&str; 10] = ["chromatic","spiral","molecular","blueprint","neon","wireframe","isometric","particles","liquid","hologram"];
 
 #[derive(Clone, Copy, Debug)]
 pub struct Frame {
@@ -57,7 +61,8 @@ impl PhraseCycle {
         } else {
             self.silence += dt;
         }
-        let boundary = self.pending_phrase || (self.voiced >= 0.7 && self.silence >= 0.65);
+        let boundary = self.pending_phrase
+            || (self.voiced >= 0.7 && (self.silence >= 0.65 || self.since_change >= 12.0));
         if self.fade.is_none() && boundary && self.since_change >= 2.0 {
             self.fade = Some(0.0);
             self.voiced = 0.0;
@@ -113,6 +118,70 @@ type Color = (f64, f64, f64);
 enum Shape {
     Line(Point, Point, f64, Color, f64),
     Dot(Point, f64, Color, f64, bool),
+}
+
+#[derive(Clone, Copy)]
+struct StrandBounds {
+    left: f64,
+    top: f64,
+    width: f64,
+    height: f64,
+}
+
+impl StrandBounds {
+    fn new(w: f64, h: f64, frame: Frame) -> Self {
+        let compact = frame.compact.clamp(0.0, 1.0);
+        let width = (w - 48.0).max(w * 0.6) * (1.0 - compact * 0.24);
+        let height = (h - 12.0).max(h * 0.4)
+            * (0.93 + frame.energy.clamp(0.0, 1.0) * 0.07)
+            * (1.0 - compact * 0.12);
+        let scale = (width / 640.0).min(height / 88.0);
+        let (width, height) = (640.0 * scale, 88.0 * scale);
+        Self {
+            left: (w - width) * 0.5,
+            top: (h - height) * 0.5,
+            width,
+            height,
+        }
+    }
+}
+
+// All designs share a centered horizontal silhouette; effects cannot resize the popup.
+fn fit_shapes(shapes: &mut [Shape], bounds: StrandBounds) {
+    let mut left = f64::INFINITY;
+    let mut right = f64::NEG_INFINITY;
+    let mut top = f64::INFINITY;
+    let mut bottom = f64::NEG_INFINITY;
+    let mut padding: f64 = 0.0;
+    for shape in shapes.iter() {
+        let (a, b, r) = match *shape {
+            Shape::Line(a, b, width, ..) => (a, b, width * 0.5),
+            Shape::Dot(p, r, ..) => (p, p, r),
+        };
+        left = left.min(a.x).min(b.x);
+        right = right.max(a.x).max(b.x);
+        top = top.min(a.y).min(b.y);
+        bottom = bottom.max(a.y).max(b.y);
+        padding = padding.max(r);
+    }
+    padding = padding.min(bounds.height * 0.2);
+    let project = |p: &mut Point| {
+        p.x = bounds.left
+            + padding
+            + (p.x - left) / (right - left).max(1.0) * (bounds.width - padding * 2.0);
+        p.y = bounds.top
+            + padding
+            + (p.y - top) / (bottom - top).max(1.0) * (bounds.height - padding * 2.0);
+    };
+    for shape in shapes {
+        match shape {
+            Shape::Line(a, b, ..) => {
+                project(a);
+                project(b);
+            }
+            Shape::Dot(p, ..) => project(p),
+        }
+    }
 }
 
 impl Shape {
@@ -250,16 +319,26 @@ fn backdrop(cr: &Context, w: f64, h: f64, style: usize, frame: Frame) {
 
 fn draw_molecular(cr: &Context, w: f64, h: f64, frame: Frame) {
     let model = molecule::model();
-    let scale = ((h - 9.0) / (2.0 * (model.radius + 1.6)))
-        .min((w - 20.0) / (2.0 * (model.half_length + 2.0)))
-        * (1.0 - frame.compact.clamp(0.0, 1.0) * 0.16);
+    let bounds = StrandBounds::new(w, h, frame);
     let angle = frame.phase;
+    let mut min_y = f64::INFINITY;
+    let mut max_y = f64::NEG_INFINITY;
+    for atom in &model.atoms {
+        let y = atom.point.1 * angle.cos() - atom.point.2 * angle.sin();
+        min_y = min_y.min(y - 0.9);
+        max_y = max_y.max(y + 0.9);
+    }
+    // Uniform scale keeps each measured fragment's atom geometry intact.
+    // Repeat the fragment horizontally instead of stretching a short molecule.
+    let scale = bounds.height / (max_y - min_y);
+    let spacing = model.half_length * 2.0 * scale;
+    let copies = (bounds.width / spacing * 0.5).ceil() as i32;
     let project = |p: molecule::Vec3| {
         let y = p.1 * angle.cos() - p.2 * angle.sin();
         let z = p.1 * angle.sin() + p.2 * angle.cos();
         Point {
             x: w * 0.5 + p.0 * scale,
-            y: h * 0.5 + y * scale,
+            y: bounds.top + (y - min_y) * scale,
             z,
         }
     };
@@ -306,15 +385,37 @@ fn draw_molecular(cr: &Context, w: f64, h: f64, frame: Frame) {
         ));
     }
     shapes.sort_by(|a, b| a.depth().total_cmp(&b.depth()));
-    for shape in shapes {
-        match shape {
+    // Rasterize the measured fragment once per frame, then reuse it across the strand.
+    cr.push_group();
+    for shape in &shapes {
+        match *shape {
             Shape::Line(a, b, width, c, alpha) => line(cr, a, b, width, c, alpha),
             Shape::Dot(p, r, c, alpha, solid) => ball(cr, p, r, c, alpha, solid),
         }
     }
+    let Ok(fragment) = cr.pop_group() else {
+        return;
+    };
+    let _ = cr.save();
+    cr.rectangle(bounds.left, bounds.top, bounds.width, bounds.height);
+    cr.clip();
+    for copy in -copies..=copies {
+        let _ = cr.save();
+        cr.translate(copy as f64 * spacing, 0.0);
+        let _ = cr.set_source(&fragment);
+        let _ = cr.paint();
+        let _ = cr.restore();
+    }
+    let _ = cr.restore();
 }
 
 pub fn draw_style(cr: &Context, w: f64, h: f64, style: usize, frame: Frame) {
+    if w < 24.0 || h < 20.0 { return; }
+    atlas::draw(cr,w,h,style,frame.phase,frame.energy,frame.compact);
+}
+
+#[allow(dead_code)]
+pub fn draw_legacy_style(cr: &Context, w: f64, h: f64, style: usize, frame: Frame) {
     if w < 24.0 || h < 20.0 {
         return;
     }
@@ -327,7 +428,18 @@ pub fn draw_style(cr: &Context, w: f64, h: f64, style: usize, frame: Frame) {
         let _ = cr.restore();
         return;
     }
+    let bounds = StrandBounds::new(w, h, frame);
+    // Blueprint grids and holographic scan lines use the same frame too.
+    let _ = cr.save();
+    cr.rectangle(
+        bounds.left - 3.0,
+        bounds.top - 3.0,
+        bounds.width + 6.0,
+        bounds.height + 6.0,
+    );
+    cr.clip();
     backdrop(cr, w, h, style, frame);
+    let _ = cr.restore();
     let e = frame.energy.clamp(0.0, 1.0);
     let compact = frame.compact.clamp(0.0, 1.0);
     let radius = (h * 0.5 - 9.0) * (0.72 + e * 0.19) * (1.0 - compact * 0.12);
@@ -344,16 +456,9 @@ pub fn draw_style(cr: &Context, w: f64, h: f64, style: usize, frame: Frame) {
         let z = -world_x * yaw.sin() + world_z * yaw.cos();
         let focal = 24.0;
         let perspective = if style == 6 { 1.0 } else { focal / (focal - z) };
-        let tilt = if style == 6 {
-            (u - 0.5) * h * 0.16
-        } else {
-            0.0
-        };
         Point {
             x: w * 0.5 + x * radius * perspective,
-            y: h * 0.5
-                + world_y * radius * perspective * if style == 6 { 0.72 } else { 1.0 }
-                + tilt,
+            y: h * 0.5 + world_y * radius * perspective,
             z,
         }
     };
@@ -507,6 +612,7 @@ pub fn draw_style(cr: &Context, w: f64, h: f64, style: usize, frame: Frame) {
             }
         }
     }
+    fit_shapes(&mut shapes, bounds);
     shapes.sort_by(|a, b| a.depth().total_cmp(&b.depth()));
     if style == 4 || style == 9 {
         for shape in &shapes {
@@ -535,6 +641,119 @@ pub fn draw_style(cr: &Context, w: f64, h: f64, style: usize, frame: Frame) {
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    fn detailed_style_names_match_the_design_catalog() {
+        let catalog: serde_json::Value = serde_json::from_str(include_str!("../web/styles.json")).unwrap();
+        for (i, entry) in catalog.as_array().unwrap().iter().enumerate() {
+            assert_eq!(entry["id"], STYLE_IDS[i]);
+            assert_eq!(entry["name"], STYLE_NAMES[i]);
+            assert!(entry["description"].as_str().unwrap().len() > 140);
+            for key in ["material", "depth", "motion"] {
+                assert!(entry[key].as_str().unwrap().len() > 20);
+            }
+        }
+    }
+    #[test]
+    fn long_unbroken_dictation_does_not_stall_the_style_rotation() {
+        let mut cycle = PhraseCycle::default();
+        for _ in 0..1400 {
+            cycle.tick(true, true, 0.01);
+        }
+        assert_eq!(cycle.selection().0, 1);
+    }
+    #[test]
+    fn molecular_uses_the_same_horizontal_footprint_as_other_strands() {
+        use cairo::{Format, ImageSurface};
+        let mut surface = ImageSurface::create(Format::ARgb32, 348, 56).unwrap();
+        {
+            let cr = Context::new(&surface).unwrap();
+            draw_style(
+                &cr,
+                348.0,
+                56.0,
+                2,
+                Frame {
+                    time: 1.0,
+                    phase: 0.7,
+                    energy: 0.65,
+                    compact: 0.0,
+                },
+            );
+        }
+        let data = surface.data().unwrap();
+        let xs: Vec<_> = data
+            .chunks_exact(4)
+            .enumerate()
+            .filter(|(_, p)| p[0].max(p[1]).max(p[2]) > 120)
+            .map(|(i, _)| i % 348)
+            .collect();
+        let width = xs.iter().max().unwrap() - xs.iter().min().unwrap();
+        assert!(
+            width >= 285 && width <= 305,
+            "molecular width was {width}, expected about 300"
+        );
+    }
+
+    #[test]
+    fn all_designs_share_bounds_at_every_rotation_and_response_extreme() {
+        use cairo::{Format, ImageSurface};
+        for (w, h) in [(180, 40), (348, 56), (468, 100)] {
+            for (energy, compact) in [(0.0, 0.0), (0.65, 0.4), (1.0, 1.0)] {
+                for phase in [0.0, 1.5, 3.0, 4.5] {
+                    let frame = Frame {
+                        time: 2.0,
+                        phase,
+                        energy,
+                        compact,
+                    };
+                    let target = StrandBounds::new(w as f64, h as f64, frame);
+                    for style in 0..STYLE_NAMES.len() {
+                        let mut surface = ImageSurface::create(Format::ARgb32, w, h).unwrap();
+                        {
+                            let cr = Context::new(&surface).unwrap();
+                            draw_style(&cr, w as f64, h as f64, style, frame);
+                        }
+                        let data = surface.data().unwrap();
+                        let mut left = w;
+                        let mut right = 0;
+                        let mut top = h;
+                        let mut bottom = 0;
+                        for (i, p) in data.chunks_exact(4).enumerate() {
+                            if p[0].max(p[1]).max(p[2]) > 100 {
+                                let (x, y) = ((i % w as usize) as i32, (i / w as usize) as i32);
+                                left = left.min(x);
+                                right = right.max(x);
+                                top = top.min(y);
+                                bottom = bottom.max(y);
+                            }
+                        }
+                        let name = STYLE_NAMES[style];
+                        assert!(
+                            left > 0 && right < w - 1 && top > 0 && bottom < h - 1,
+                            "{name} clips {w}x{h}: {left},{top}..{right},{bottom}"
+                        );
+                        assert!(
+                            ((right - left + 1) as f64 - target.width).abs()
+                                < target.width * 0.07 + 2.0,
+                            "{name} width {} != {} at phase {phase}",
+                            right - left + 1,
+                            target.width
+                        );
+                        assert!(
+                            ((bottom - top + 1) as f64 - target.height).abs() < 6.0,
+                            "{name} height {} != {}",
+                            bottom - top + 1,
+                            target.height
+                        );
+                        assert!(
+                            ((left + right) as f64 * 0.5 - w as f64 * 0.5).abs() < 4.0,
+                            "{name} off center: {left}..{right}, {w}x{h}, phase {phase}"
+                        );
+                    }
+                }
+            }
+        }
+    }
     #[test]
     fn phrase_pauses_advance_once_and_wrap_all_styles() {
         let mut cycle = PhraseCycle::default();
@@ -581,7 +800,7 @@ mod tests {
     #[test]
     fn short_breaths_do_not_switch_styles() {
         let mut cycle = PhraseCycle::default();
-        for _ in 0..10 {
+        for _ in 0..5 {
             for _ in 0..80 {
                 cycle.tick(true, true, 0.01);
             }
@@ -594,14 +813,16 @@ mod tests {
 
     #[test]
     fn syllabic_phrases_advance_even_with_brief_startup_delay() {
-        let mut cycle=PhraseCycle::default();
+        let mut cycle = PhraseCycle::default();
         for style in 0..10 {
             for i in 20..300 {
-                let time=i as f64*0.01;
-                cycle.tick(true,(time*5.0).fract()<0.40,0.01);
+                let time = i as f64 * 0.01;
+                cycle.tick(true, (time * 5.0).fract() < 0.40, 0.01);
             }
-            for _ in 0..220 {cycle.tick(true,false,0.01);}
-            assert_eq!(cycle.selection().0,(style+1)%10);
+            for _ in 0..220 {
+                cycle.tick(true, false, 0.01);
+            }
+            assert_eq!(cycle.selection().0, (style + 1) % 10);
         }
     }
 

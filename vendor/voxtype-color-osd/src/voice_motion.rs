@@ -4,12 +4,14 @@ pub struct VoiceMotion {
     pub energy: f64,
     pub compact: f64,
     pub angular_speed: f64,
+    pub speaking: bool,
     time: f64,
     fast_envelope: f64,
     slow_envelope: f64,
     last_onset: Option<f64>,
     cadence: f64,
     armed: bool,
+    recent_peak: f64,
 }
 
 pub fn voice_level(peak: f64) -> f64 {
@@ -36,6 +38,9 @@ impl VoiceMotion {
         } else {
             0.0
         };
+        self.recent_peak = amplitude.max(self.recent_peak * (-dt / 2.0).exp());
+        // Gate pauses relative to the speaker, rather than requiring digital silence.
+        self.speaking = amplitude > (self.recent_peak * 0.20).max(0.003);
         self.fast_envelope += (amplitude - self.fast_envelope) * (1.0 - (-dt / 0.018).exp());
         self.slow_envelope += (amplitude - self.slow_envelope) * (1.0 - (-dt / 0.25).exp());
         if self.fast_envelope < self.slow_envelope * 0.88 || amplitude < 0.003 {
@@ -63,7 +68,7 @@ impl VoiceMotion {
         }
         let compact_target = (self.cadence / 6.0).clamp(0.0, 1.0);
         self.compact += (compact_target - self.compact) * (1.0 - (-dt / 0.3).exp());
-        let speed_target = 0.12 + self.energy * 0.45 + self.cadence * 1.35;
+        let speed_target = 0.75 + self.energy * 0.65 + self.cadence * 1.35;
         self.angular_speed += (speed_target - self.angular_speed) * (1.0 - (-dt / 0.18).exp());
         self.phase = (self.phase + dt * self.angular_speed).rem_euclid(std::f64::consts::TAU);
     }
@@ -72,6 +77,27 @@ impl VoiceMotion {
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    fn quiet_input_still_visibly_rotates() {
+        let mut motion = VoiceMotion::default();
+        for _ in 0..100 {
+            motion.advance(0.001, 0.01);
+        }
+        assert!(
+            motion.phase > 0.5,
+            "barely visible rotation: {}",
+            motion.phase
+        );
+    }
+
+    #[test]
+    fn room_noise_between_words_is_a_pause_not_continuous_speech() {
+        let mut motion = cadence_sample(4.0, 0.12);
+        for _ in 0..70 {
+            motion.advance(0.008, 0.01);
+        }
+        assert!(!motion.speaking);
+    }
 
     fn cadence_sample(hz: f64, amplitude: f64) -> VoiceMotion {
         let mut motion = VoiceMotion::default();
@@ -114,7 +140,7 @@ mod tests {
             fast.advance(0.0, 0.01);
         }
         assert!(fast.compact < 0.05);
-        assert!(fast.angular_speed < 0.5);
+        assert!(fast.angular_speed < 0.9);
     }
 
     #[test]
@@ -136,8 +162,8 @@ mod tests {
             loud.advance(0.20, 0.02);
         }
         assert!(loud.phase > quiet.phase);
-        assert!(loud.angular_speed < 0.7);
-        assert!(quiet.phase > silent.phase * 1.5);
+        assert!(loud.angular_speed < 1.5);
+        assert!(quiet.phase > silent.phase);
         assert_eq!(silent.energy, 0.0);
     }
 
@@ -161,6 +187,6 @@ mod tests {
     fn invalid_input_and_long_idle_do_not_jump() {
         let mut motion = VoiceMotion::default();
         motion.advance(f64::NAN, 100.0);
-        assert!(motion.phase.is_finite() && motion.phase < 0.01);
+        assert!(motion.phase.is_finite() && motion.phase < 0.02);
     }
 }

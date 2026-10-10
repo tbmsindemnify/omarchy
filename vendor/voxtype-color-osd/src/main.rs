@@ -270,6 +270,13 @@ fn spawn_ipc_worker(
             let mut last_log = Instant::now();
 
             let on_frame = move |frame: AudioFrame| {
+                // Analyze every audio frame instead of downsampling cadence to display FPS.
+                if let Ok(mut motion) = state.motion.lock() {
+                    motion.advance(
+                        frame.min.abs().max(frame.max.abs()) as f64,
+                        dt_per_frame as f64,
+                    );
+                }
                 if let Ok(mut r) = state.ring.lock() {
                     r.push(frame);
                 }
@@ -527,16 +534,14 @@ fn build_window(app: &Application, cfg: &OsdConfig, palette: Palette, state: Arc
             }
         }
 
-        let amplitude=redraw_state.ring.lock().ok()
-            .and_then(|ring|ring.latest())
-            .map(|frame|frame.min.abs().max(frame.max.abs()) as f64).unwrap_or(0.0);
-        if let Ok(mut motion)=redraw_state.motion.lock() {motion.advance(amplitude,dt);}
+        let speaking = redraw_state.motion.lock()
+            .map(|motion| motion.speaking).unwrap_or(false);
         if let Ok(mut cycle)=redraw_state.cycle.lock() {
             let before=cycle.selection();
-            cycle.tick(true,amplitude>0.006,dt);
+            cycle.tick(true,speaking,dt);
             let after=cycle.selection();
             if before.0!=after.0 {
-                tracing::info!(style=helix::STYLE_NAMES[after.0],"helix transition complete");
+                tracing::info!(style=helix::STYLE_IDS[after.0],name=helix::STYLE_NAMES[after.0],"helix transition complete");
             }
         }
         redraw_area.queue_draw();
