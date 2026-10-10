@@ -38,3 +38,12 @@
 - Extend the popup to the bottom edge of its monitor and clip the app list to the actual card height, fixing rows painting outside the former 580px box.
 - Restore the first app after opening and hide duplicate ChatGPT tray entries while retaining the Codex launcher.
 - Runtime IPC confirms app population and animation; native click, scroll and visual triple-check verification remain unavailable in this chat environment.
+
+## 2026-10-10 - Speech-reactive DNA visualizer
+
+- Add ten DNA styles with smooth phrase-pause transitions: chromatic, spiral, molecular, blueprint, neon, wireframe, isometric, particles, liquid and holographic.
+- Estimate speech cadence from relative audio-envelope pulses so faster dictation compresses and accelerates the helix without treating loudness alone as speed.
+- Render the molecular style from 486 measured 1BNA heavy-atom positions with rigid alignment, uniform scaling and artistic lighting; include provenance and geometry checks.
+- Preserve the popup dimensions, active-monitor placement, click-through behavior, peak meter and existing recording controls.
+- Verify 14 focused Rust tests, all ten styles on the live desktop with isolated synthetic audio, pause transitions, hide/reopen behavior and focus preservation. Verify the installed popup with a real microphone start/cancel without generating a transcript.
+- Document the inherited full-library test dependency and Rust 2024 compatibility gaps in `vendor/voxtype-color-osd/DNA_VISUALIZER.md`.

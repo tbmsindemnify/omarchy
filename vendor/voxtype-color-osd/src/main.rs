@@ -2,12 +2,12 @@
 //! for the Voxtype daemon.
 //!
 //! Renders a click-through, layer-shell-anchored window containing the
-//! scrolling waveform plus a segmented peak meter. Audio frames arrive on
+//! voice-reactive DNA styles plus a segmented peak meter. Audio frames arrive on
 //! the daemon's audio Unix socket via [`voxtype::osd::ipc::run_ipc_loop`],
 //! decoded into [`AudioFrame`]s by a tokio runtime on a worker thread, and
 //! pushed into a shared [`FrameRing`] + [`PeakHold`]. The GTK side polls a
 //! ~60 Hz `glib::timeout_add_local` callback that redraws the
-//! `DrawingArea` whenever new frames have arrived.
+//! `DrawingArea` while audio frames keep the popup visible.
 //!
 //! When the IPC socket is silent for `idle_timeout_secs` (Idle proxy) the
 //! window is hidden so the binary does no rendering work and consumes
@@ -19,6 +19,10 @@ use std::cell::Cell;
 use std::path::PathBuf;
 use std::sync::{Arc, Mutex};
 use std::time::{Duration, Instant};
+
+mod voice_motion;
+mod helix;
+use voice_motion::VoiceMotion;
 
 use cairo::{Context, RectangleInt, Region};
 use clap::Parser;
@@ -32,7 +36,7 @@ use voxtype::config::Config as VoxtypeConfig;
 use voxtype::osd::config::{OsdConfig, OsdPosition};
 use voxtype::osd::ipc::{resolve_socket_path, run_ipc_loop, FrameRing, DEFAULT_RING_DEPTH};
 use voxtype::osd::theme::ThemeWatcher;
-use voxtype::osd::visual::{peak_meter_fraction, project_envelope, MeterZone, Palette, PeakHold};
+use voxtype::osd::visual::{peak_meter_fraction, MeterZone, Palette, PeakHold};
 
 /// Load the `[osd]` section from the voxtype config file, falling back to
 /// `OsdConfig::default()` on any error (file missing, unreadable, parse
@@ -69,8 +73,7 @@ fn load_osd_config_from_file(explicit: Option<&std::path::Path>) -> OsdConfig {
 /// Application id for the GTK4 frontend.
 const APP_ID: &str = "io.voxtype.OsdGtk4";
 
-/// Render tick period (~60 Hz). The redraw is gated on whether new frames
-/// have arrived since the last paint, so this is a cheap upper bound.
+/// Render tick period (~60 Hz). Rendering stops while the popup is hidden.
 const RENDER_TICK_MS: u32 = 16;
 
 /// How long we wait without frames before treating the daemon as idle and
@@ -148,6 +151,8 @@ struct Args {
 
 /// State shared between the IPC worker and the GTK redraw timer.
 struct SharedState {
+    motion: Mutex<VoiceMotion>,
+    cycle: Mutex<helix::PhraseCycle>,
     ring: Mutex<FrameRing>,
     peak: Mutex<PeakHold>,
     last_seq: Mutex<u64>,
@@ -157,6 +162,8 @@ struct SharedState {
 impl SharedState {
     fn new(decay_db_per_sec: f32) -> Self {
         Self {
+            motion: Mutex::new(VoiceMotion::default()),
+            cycle: Mutex::new(helix::PhraseCycle::default()),
             ring: Mutex::new(FrameRing::new(DEFAULT_RING_DEPTH)),
             peak: Mutex::new(PeakHold::new(decay_db_per_sec)),
             last_seq: Mutex::new(0),
@@ -223,7 +230,8 @@ fn main() -> anyhow::Result<()> {
     let cfg = osd_cfg.clone();
     let state_for_activate = state.clone();
     app.connect_activate(move |app| {
-        build_window(app, &cfg, palette, state_for_activate.clone());
+        let monitor = active_monitor();
+        build_window(app, &cfg, palette, state_for_activate.clone(), monitor.as_ref());
     });
 
     // GTK's run() consumes argv; we've already parsed via clap, so feed
@@ -310,6 +318,24 @@ fn spawn_ipc_worker(
 /// via `--monitor`). If that fails — display unavailable, no monitors
 /// enumerated — returns None and the caller falls back to a conservative
 /// default.
+fn active_monitor() -> Option<gtk4::gdk::Monitor> {
+    let output = std::process::Command::new("hyprctl")
+        .args(["monitors", "-j"]).output().ok()?;
+    let monitors: serde_json::Value = serde_json::from_slice(&output.stdout).ok()?;
+    let name = monitors.as_array()?.iter()
+        .find(|m| m["focused"].as_bool() == Some(true))?["name"].as_str()?;
+    let display = gtk4::gdk::Display::default()?;
+    let available = display.monitors();
+    for index in 0..available.n_items() {
+        if let Some(monitor) = available.item(index).and_downcast::<gtk4::gdk::Monitor>() {
+            if monitor.connector().as_deref() == Some(name) {
+                return Some(monitor);
+            }
+        }
+    }
+    None
+}
+
 fn focused_monitor_height_px() -> Option<i32> {
     use gtk4::gdk;
     let display = gdk::Display::default()?;
@@ -333,7 +359,7 @@ fn focused_monitor_height_px() -> Option<i32> {
 
 /// Build the GTK window, attach layer-shell config, mount the DrawingArea,
 /// and start the redraw tick.
-fn build_window(app: &Application, cfg: &OsdConfig, palette: Palette, state: Arc<SharedState>) {
+fn build_window(app: &Application, cfg: &OsdConfig, palette: Palette, state: Arc<SharedState>, monitor: Option<&gtk4::gdk::Monitor>) {
     let window = ApplicationWindow::builder()
         .application(app)
         .default_width(cfg.width_px as i32)
@@ -344,6 +370,9 @@ fn build_window(app: &Application, cfg: &OsdConfig, palette: Palette, state: Arc
 
     // Layer-shell setup: top layer, no keyboard, anchored per config.
     window.init_layer_shell();
+    if let Some(monitor) = monitor {
+        window.set_monitor(Some(monitor));
+    }
     window.set_layer(Layer::Overlay);
     window.set_keyboard_mode(KeyboardMode::None);
     window.set_namespace(Some("voxtype-osd"));
@@ -361,12 +390,17 @@ fn build_window(app: &Application, cfg: &OsdConfig, palette: Palette, state: Arc
         OsdPosition::BottomCenter | OsdPosition::TopCenter
     );
 
-    if centered {
+    if cfg.position == OsdPosition::BottomCenter {
+        window.set_anchor(Edge::Bottom, true);
+        window.set_anchor(Edge::Top, false);
+        window.set_margin(Edge::Bottom, cfg.margin_px as i32);
+    } else if centered {
         // Resolve monitor height to translate the fractional offset into
         // pixels. Falls back to a conservative 1080 if the display can't be
         // queried (extremely rare on Wayland-only systems where layer-shell
         // is supported at all).
-        let monitor_height = focused_monitor_height_px().unwrap_or(1080);
+        let monitor_height = monitor.map(|m| m.geometry().height())
+            .or_else(focused_monitor_height_px).unwrap_or(1080);
         let top_px = (cfg.top_margin.clamp(0.0, 1.0) * monitor_height as f32) as i32;
 
         window.set_anchor(Edge::Top, true);
@@ -428,17 +462,18 @@ fn build_window(app: &Application, cfg: &OsdConfig, palette: Palette, state: Arc
         });
     }
 
-    // Redraw timer. We only call queue_draw() when the IPC has produced a
-    // newer seq than the last paint, so this is cheap when idle.
+    // Advance animation at display cadence while visible; hidden popups do not render.
     let redraw_state = state.clone();
     let redraw_area = drawing_area.clone();
     let redraw_window = window.clone();
-    let last_drawn_seq = Cell::new(0u64);
+    let previous_tick = Cell::new(Instant::now());
     // Tracks GTK visibility. Starts true because `window.present()` below maps
     // the surface, the first tick's idle check then hides it.
     let visible = Cell::new(true);
 
     glib::timeout_add_local(Duration::from_millis(RENDER_TICK_MS as u64), move || {
+        let now=Instant::now();
+        let dt=now.duration_since(previous_tick.replace(now)).as_secs_f64().min(0.05);
         let cur_seq = redraw_state.last_seq.lock().map(|s| *s).unwrap_or(0);
         let last_at = redraw_state
             .last_frame_at
@@ -448,6 +483,8 @@ fn build_window(app: &Application, cfg: &OsdConfig, palette: Palette, state: Arc
         let idle = last_at.elapsed().as_secs_f32() > IDLE_TIMEOUT_SECS || osd_suppressed();
 
         if idle {
+            if let Ok(mut cycle)=redraw_state.cycle.lock() {cycle.tick(false,false,dt);}
+            if let Ok(mut motion)=redraw_state.motion.lock() {motion.advance(0.0,dt);}
             if visible.get() {
                 tracing::info!("hiding (idle for {:.2}s)", last_at.elapsed().as_secs_f32());
                 redraw_window.set_visible(false);
@@ -457,6 +494,10 @@ fn build_window(app: &Application, cfg: &OsdConfig, palette: Palette, state: Arc
         }
 
         if !visible.get() {
+            // Re-select on each recording so the popup follows the user's work.
+            if let Some(monitor) = active_monitor() {
+                redraw_window.set_monitor(Some(&monitor));
+            }
             tracing::info!(
                 "showing (frame seq={}, last_at={:.3}s ago)",
                 cur_seq,
@@ -486,10 +527,19 @@ fn build_window(app: &Application, cfg: &OsdConfig, palette: Palette, state: Arc
             }
         }
 
-        if cur_seq != last_drawn_seq.get() {
-            redraw_area.queue_draw();
-            last_drawn_seq.set(cur_seq);
+        let amplitude=redraw_state.ring.lock().ok()
+            .and_then(|ring|ring.latest())
+            .map(|frame|frame.min.abs().max(frame.max.abs()) as f64).unwrap_or(0.0);
+        if let Ok(mut motion)=redraw_state.motion.lock() {motion.advance(amplitude,dt);}
+        if let Ok(mut cycle)=redraw_state.cycle.lock() {
+            let before=cycle.selection();
+            cycle.tick(true,amplitude>0.006,dt);
+            let after=cycle.selection();
+            if before.0!=after.0 {
+                tracing::info!(style=helix::STYLE_NAMES[after.0],"helix transition complete");
+            }
         }
+        redraw_area.queue_draw();
         glib::ControlFlow::Continue
     });
 
@@ -510,7 +560,7 @@ fn apply_click_through(window: &ApplicationWindow) {
     surface.set_input_region(Some(&empty));
 }
 
-/// Render the waveform + peak meter into the given Cairo context.
+/// Render the DNA scene and peak meter into the given Cairo context.
 fn draw(
     cr: &Context,
     width: i32,
@@ -535,8 +585,8 @@ fn draw(
 
     // Layout: waveform area on the left (~92% width), gap (1%), then peak
     // meter on the right (~7% width).
-    let meter_width = (w * 0.07).max(8.0);
-    let gap = (w * 0.01).max(2.0);
+    let meter_width = 4.0;
+    let gap = 8.0;
     let wave_width = (w - meter_width - gap).max(0.0);
 
     draw_waveform(cr, 0.0, 0.0, wave_width, h, palette, state, gain);
@@ -551,71 +601,21 @@ fn draw_waveform(
     h: f64,
     palette: &Palette,
     state: &Arc<SharedState>,
-    gain: f64,
+    _gain: f64,
 ) {
-    if w < 1.0 {
-        return;
-    }
-    let n_columns = w.floor() as usize;
-    if n_columns == 0 {
-        return;
-    }
-
-    // Collect frames as a Vec snapshot under the lock, then drop.
-    let frames: Vec<AudioFrame> = match state.ring.lock() {
-        Ok(r) => r.iter().collect(),
-        Err(_) => return,
+    let _ = palette;
+    let (phase,energy,compact) = {
+        let Ok(motion)=state.motion.lock() else {return;};
+        (motion.phase,motion.energy,motion.compact)
     };
-    let cols = project_envelope(&frames, n_columns);
-
-    let mid = y + h * 0.5;
-    let half = h * 0.5;
-
-    // Mirrored envelope filled polygon. We trace the top edge left-to-right
-    // following `max`, then the bottom edge right-to-left following `min`.
-    let gradient = cairo::LinearGradient::new(x, y, x + w, y);
-    for (stop, r, g, b) in [(0.0,0.13,0.43,0.40),(0.33,0.20,0.34,0.58),(0.66,0.43,0.25,0.55),(1.0,0.55,0.25,0.36)] {
-        gradient.add_color_stop_rgb(stop,r,g,b);
-    }
-    cr.set_source(&gradient).ok();
-
-    cr.new_path();
-    // Top edge.
-    for (i, col) in cols.iter().enumerate() {
-        let px = x + i as f64 + 0.5;
-        let py = mid - sample_to_pixels(col.max, half, gain);
-        if i == 0 {
-            cr.move_to(px, py);
-        } else {
-            cr.line_to(px, py);
-        }
-    }
-    // Bottom edge, right-to-left.
-    for (i, col) in cols.iter().enumerate().rev() {
-        let px = x + i as f64 + 0.5;
-        let py = mid - sample_to_pixels(col.min, half, gain);
-        cr.line_to(px, py);
-    }
-    cr.close_path();
-    cr.fill().ok();
-
-    // Subtle centerline.
-    cr.set_source_rgba(
-        palette.foreground.r as f64,
-        palette.foreground.g as f64,
-        palette.foreground.b as f64,
-        0.15,
-    );
-    cr.set_line_width(1.0);
-    cr.move_to(x, mid);
-    cr.line_to(x + w, mid);
-    cr.stroke().ok();
-}
-
-fn sample_to_pixels(sample: f32, half_height: f64, gain: f64) -> f64 {
-    // Apply visual gain, then clamp to -1.0..=1.0, then scale to half_height.
-    let s = (sample as f64 * gain).clamp(-1.0, 1.0);
-    s * half_height
+    let (time,(from,to,blend)) = {
+        let Ok(cycle)=state.cycle.lock() else {return;};
+        (cycle.elapsed(),cycle.selection())
+    };
+    let _=cr.save();
+    cr.translate(x,y);
+    helix::draw_mix(cr,w,h,from,to,blend,helix::Frame{time,phase,energy,compact});
+    let _=cr.restore();
 }
 
 fn draw_peak_meter(

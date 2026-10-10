@@ -1,0 +1,2 @@
+# Preserve the original fixed-width PDB download and its recorded checksum.
+src/dna_1bna.pdb -text whitespace=-blank-at-eol
